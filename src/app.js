@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended:true}))
 
+// Using the routes
 app.use('/api/products', productsRoutes)
 app.use('/api/carts', cartsRoutes)
 

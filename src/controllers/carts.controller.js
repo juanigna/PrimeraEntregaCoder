@@ -2,9 +2,10 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { getProducts } = require('./products.controller');
 
+// Declaring the path for the data persistence
 const path = "./src/files/carrito.json";
 
-
+// Function to get the carts
 const getCarts = async (req, res) => {
     try{
         if(fs.existsSync(path)){
@@ -19,16 +20,19 @@ const getCarts = async (req, res) => {
     }
 }
 
+
+// Function to add a new cart
 const newCart = async (req, res) => {
-    const carts = await getCarts();
+    const carts = await getCarts(); // Getting the carts
     try{
 
+        // Creating a new cart
         const newCart = {
             id: uuidv4(),
             products: []
         }
 
-        carts.push(newCart);
+        carts.push(newCart); // Pushing the new cart
 
         await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'));
 
@@ -38,13 +42,14 @@ const newCart = async (req, res) => {
     }
 }  
 
-const getProuctsByCart = async (req, res) => {
-    const {cid} = req.params;
-    try{    
-        // Getting the cart by cid
-        const carts = await getCarts();
+// Function to get the products from the cart
 
-        const cartFound = carts.find(cart => cart.id === cid);
+const getProductsByCart = async (req, res) => {
+    try{    
+        const {cid} = req.params; // Getting the cart id by params
+        const carts = await getCarts(); // Getting the carts
+
+        const cartFound = carts.find(cart => cart.id === cid); // Seraching a cart by id
         
         if(cartFound){
             return res.status(200).json({message: cartFound.products});
@@ -57,33 +62,36 @@ const getProuctsByCart = async (req, res) => {
     }
 }
 
+// Function to add a product to the cart
+
 const addProdToCart = async (req, res) => {
     
     try{
-        const {cid, pid} = req.params;
-        // Getting the product by pid
-        const products = await getProducts();
-        const prodFound = products.find(product => product.id === pid);
+        const {cid, pid} = req.params; // Getting the product id and the cart id from params
+        const products = await getProducts(); // Getting the products 
+        const carts = await getCarts(); // Getting the carts
 
-        // Getting the cart by cid
-        const carts = await getCarts();
-
-        const cartFound = carts.find(cart => cart.id === cid);
+        const prodFound = products.find(product => product.id === pid); // Serching the product by id
+        const cartFound = carts.find(cart => cart.id === cid); // Serching the cart by id
         
         if(prodFound && cartFound){
-            const prodWithSameId = cartFound.products.find(product => product.id === prodFound.id);
+            const prodWithSameId = cartFound.products.find(product => product.id === prodFound.id); // Serching if there is a product with same id
+
             if(prodWithSameId){
-                prodWithSameId.quantity +=1;
-                await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'));
+                prodWithSameId.quantity +=1; // Add the product quantity +1
+                await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t')); // Write the new cart
                 return res.status(200).json({message: 'Product added succesfully'})
             }
+
+            // Creating the product to add to the cart
             let productToAdd = {
                 id: prodFound.id,
                 quantity: 1
             }
-            cartFound.products.push(productToAdd);
 
-            await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'));
+            cartFound.products.push(productToAdd); // Pushing the product to the cart
+
+            await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t')); // Writing the new cart
             res.status(200).json({message: 'Product added successfully'})
         }else{
             res.status(404).json({message: 'Product or cart not found'});
@@ -96,5 +104,5 @@ const addProdToCart = async (req, res) => {
 module.exports = {
     addProdToCart,
     newCart,
-    getProuctsByCart
+    getProductsByCart
 };

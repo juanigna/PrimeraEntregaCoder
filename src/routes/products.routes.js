@@ -4,6 +4,8 @@ const uploader = require("../utils");
 
 const router = Router();
 
+// Routes for products
+
 router.get('/', getProducts);
 router.get('/:pid', getProductById)
 router.post('/', uploader.array('files', 5) , addProduct);
