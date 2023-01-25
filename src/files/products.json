@@ -1,0 +1,41 @@
+[
+	{
+		"id": "c4dcc5d7-2dfc-4fb4-b55f-c94374af27af",
+		"name": "Auto",
+		"description": "telefono buena",
+		"code": "1234453",
+		"price": "1234",
+		"paths": [
+			"C:\\Program Files (x86)\\BackendCoder\\Clase5\\PrimeraEntregaProyectoFinal\\src\\public\\img\\projecto.png"
+		],
+		"status": "true",
+		"stock": "22",
+		"category": "electronica"
+	},
+	{
+		"id": "4982421f-e37f-4534-9407-d264f0df57ae",
+		"name": "Laptop",
+		"description": "laprop buena",
+		"code": "2222",
+		"price": "12341",
+		"thumbnails": [
+			"C:\\Program Files (x86)\\BackendCoder\\Clase5\\PrimeraEntregaProyectoFinal\\src\\public\\img\\projecto.png"
+		],
+		"status": "true",
+		"stock": "22",
+		"category": "electronica"
+	},
+	{
+		"id": "7a79ab6b-8e30-49be-8596-ae4ff0d59e94",
+		"name": "Auricular",
+		"description": "auricular buena",
+		"code": "22222",
+		"price": "12341",
+		"thumbnails": [
+			"C:\\Program Files (x86)\\BackendCoder\\Clase5\\PrimeraEntregaProyectoFinal\\src\\public\\img\\projecto.png"
+		],
+		"status": "true",
+		"stock": "22",
+		"category": "electronica"
+	}
+]
