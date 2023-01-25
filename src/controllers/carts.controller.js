@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
-const { getProducts } = require('./products.controller');
+const { getProducts, getProductsFromFile } = require('./products.controller');
 
 // Declaring the path for the data persistence
 const path = "./src/files/carrito.json";
@@ -68,7 +68,7 @@ const addProdToCart = async (req, res) => {
     
     try{
         const {cid, pid} = req.params; // Getting the product id and the cart id from params
-        const products = await getProducts(); // Getting the products 
+        const products = await getProductsFromFile(); // Getting the products 
         const carts = await getCarts(); // Getting the carts
 
         const prodFound = products.find(product => product.id === pid); // Serching the product by id
@@ -97,7 +97,7 @@ const addProdToCart = async (req, res) => {
             res.status(404).json({message: 'Product or cart not found'});
         }
     }catch(e){
-        return res.status(404).json({message: e.message})
+        return res.status(404).json({error: e.message})
     }
 }
 

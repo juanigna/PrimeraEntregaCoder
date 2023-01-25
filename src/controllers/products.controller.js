@@ -62,7 +62,7 @@ const addProduct = async (req, res) => {
         const products = await getProductsFromFile(); // Getting the products from fs
         const { name, description, code, price, status, stock, category} = req.body; // Getting the data from de body
 
-        if(!name || !description || !code || !price || !stock || !category || !status){
+        if(!name || !description || !code || !price || !stock  || !category || !status){
             return res.status(400).json({msg: "Completa todos los campos!"});
         }
 
@@ -88,7 +88,7 @@ const addProduct = async (req, res) => {
             code,
             price,
             thumbnails: paths,
-            status: status.length === 0 ? true : status,
+            status: !status ? true : Boolean(status),
             stock,
             category,
         }
@@ -161,5 +161,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getProducts,
-    getProductById
+    getProductById,
+    getProductsFromFile
 }
