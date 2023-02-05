@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const { newCart, addProdToCart, getProductsByCart } = require("../controllers/carts.controller");
+import { Router } from "express";
+import { newCart, addProdToCart, getProductsByCart } from "../controllers/carts.controller.js";
 
 const router = Router();
 
@@ -8,4 +8,4 @@ router.get('/:cid', getProductsByCart);
 router.post('/', newCart);
 router.post('/:cid/product/:pid/', addProdToCart)
 
-module.exports = router;
+export default router;

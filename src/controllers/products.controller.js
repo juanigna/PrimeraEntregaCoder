@@ -1,12 +1,12 @@
-const fs = require("fs");
-const { v4: uuidv4 } = require('uuid');
+import fs from "fs";
+import { v4 as uuidv4 } from 'uuid';
 
 // Declaring the path for the data persistence
 
 const path = "./src/files/products.json";
 
 //Function to get the products from fs
-const getProductsFromFile = async () => {
+export const getProductsFromFile = async () => {
     try{
         if(fs.existsSync(path)){
             const data = await fs.promises.readFile(path, 'utf-8');
@@ -21,23 +21,23 @@ const getProductsFromFile = async () => {
 }
 
 // Function to get the products
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
     try{   
-        
+        res.render('home', {});
         const products = await getProductsFromFile(); // Getting the products from fs
         const {limit} = req.query; // Getting the limit query
         if(limit){
             return res.status(200).json({products: products.slice(0, limit)});
         }
 
-        res.status(200).json({products: products});
+        // res.status(200).json({products: products});
     }catch(e){
         return res.status(404).json({message: e.message});
     }
 }
 
 // Function to get the product by id
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
     try{
         const products = await getProductsFromFile(); // Getting the products from fs
         const {pid} = req.params; // Getting the productId from params
@@ -57,7 +57,7 @@ const getProductById = async (req, res) => {
 
 //Function to add a product
 
-const addProduct = async (req, res) => {
+export const addProduct = async (req, res) => {
     try{
         const products = await getProductsFromFile(); // Getting the products from fs
         const { name, description, code, price, status, stock, category} = req.body; // Getting the data from de body
@@ -106,7 +106,7 @@ const addProduct = async (req, res) => {
 
 //Function to update a product
 
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
     const products = await getProductsFromFile(); // Getting the products from fs
     const {pid} = req.params; // Getting the product id from params
     const {...changes} = req.body  // Getting the changes to update
@@ -137,7 +137,7 @@ const updateProduct = async (req, res) => {
 
 //Function to delete a product
 
-const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
     try{
         const products = await getProductsFromFile(); // Getting the products from fs
         const {pid} = req.params; // Getting the product id from the params
@@ -156,11 +156,3 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-module.exports = {
-    addProduct,
-    updateProduct,
-    deleteProduct,
-    getProducts,
-    getProductById,
-    getProductsFromFile
-}

@@ -1,8 +1,9 @@
-const express = require('express');
-const morgan = require('morgan');
-const productsRoutes = require('./routes/products.routes.js');
-const cartsRoutes = require('./routes/carts.routes.js');
-
+import express from 'express';
+import morgan from 'morgan';
+import productsRoutes from './routes/products.routes.js';
+import cartsRoutes from './routes/carts.routes.js';
+import handlebars from 'express-handlebars';
+import { __dirname } from './utils.js';
 // Setting app
 
 const app = express();
@@ -14,6 +15,9 @@ app.set('port', 8080);
 
 // Middlewares
 
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname +'/views');
+app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + 'public/'));
 app.use(express.json());
 app.use(morgan('dev'));
@@ -23,4 +27,4 @@ app.use(express.urlencoded({ extended:true}))
 app.use('/api/products', productsRoutes)
 app.use('/api/carts', cartsRoutes)
 
-module.exports = app;
+export default app;

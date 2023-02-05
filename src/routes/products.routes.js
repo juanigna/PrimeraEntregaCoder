@@ -1,6 +1,6 @@
-const { Router } = require("express");
-const { deleteProduct, getProducts, updateProduct, addProduct, getProductById } = require("../controllers/products.controller");
-const uploader = require("../utils");
+import { Router } from "express";
+import { addProduct, deleteProduct, getProductById, getProducts, updateProduct } from "../controllers/products.controller.js";
+import uploader from "../utils.js";
 
 const router = Router();
 
@@ -12,4 +12,4 @@ router.post('/', uploader.array('files', 5) , addProduct);
 router.put('/:pid', updateProduct);
 router.delete('/:pid', deleteProduct);
 
-module.exports = router;
+export default router;

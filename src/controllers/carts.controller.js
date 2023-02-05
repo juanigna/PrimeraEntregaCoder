@@ -1,6 +1,6 @@
-const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
-const { getProducts, getProductsFromFile } = require('./products.controller');
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import { getProducts, getProductsFromFile } from './products.controller.js';
 
 // Declaring the path for the data persistence
 const path = "./src/files/carrito.json";
@@ -22,7 +22,7 @@ const getCarts = async (req, res) => {
 
 
 // Function to add a new cart
-const newCart = async (req, res) => {
+export const newCart = async (req, res) => {
     const carts = await getCarts(); // Getting the carts
     try{
 
@@ -44,7 +44,7 @@ const newCart = async (req, res) => {
 
 // Function to get the products from the cart
 
-const getProductsByCart = async (req, res) => {
+export const getProductsByCart = async (req, res) => {
     try{    
         const {cid} = req.params; // Getting the cart id by params
         const carts = await getCarts(); // Getting the carts
@@ -64,7 +64,7 @@ const getProductsByCart = async (req, res) => {
 
 // Function to add a product to the cart
 
-const addProdToCart = async (req, res) => {
+export const addProdToCart = async (req, res) => {
     
     try{
         const {cid, pid} = req.params; // Getting the product id and the cart id from params
@@ -101,8 +101,3 @@ const addProdToCart = async (req, res) => {
     }
 }
 
-module.exports = {
-    addProdToCart,
-    newCart,
-    getProductsByCart
-};
