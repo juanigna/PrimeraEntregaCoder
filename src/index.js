@@ -7,10 +7,14 @@ const main = () => {
         console.log('listening on port ' + app.get('port'))
     })  
 
-    const socketServer = new Server(httpServer);
-
-    socketServer.on('connection', socket => {
+    global.io = new Server(httpServer);
+    
+    io.on('connection', socket => {
         console.log("New client")
+
+        socket.on('message', data => {
+            console.log(data)
+        })
     })
 }
 

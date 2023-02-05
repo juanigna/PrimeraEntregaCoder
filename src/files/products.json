@@ -9,5 +9,137 @@
 		"status": true,
 		"stock": 12,
 		"category": "Electronic"
+	},
+	{
+		"id": "4bd5a109-ffa9-4542-8bac-4dcd81854516",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "dsadsa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Electronic"
+	},
+	{
+		"id": "36d8c203-9a26-489c-a8cd-a218dee40178",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "dsaddsa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Electronic"
+	},
+	{
+		"id": "20bd1b81-2bcf-4cac-b9b8-723abf08f9ac",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "ddsaddsa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Electronic"
+	},
+	{
+		"id": "03bd27b5-6092-4c34-8d69-098e15658d65",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "ddssaddsa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Nose"
+	},
+	{
+		"id": "bd69ea21-1414-483d-8628-011dbf269811",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "ddssaddssa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Auto"
+	},
+	{
+		"id": "8007fc48-9386-41f0-8805-1a0ce5d12c08",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "ddssasddssa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Moto"
+	},
+	{
+		"id": "c0853bda-7c3d-43d0-8781-a2231b512af4",
+		"name": "Mac",
+		"description": "La mejor mac",
+		"code": "ddsssasddssa",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Motos"
+	},
+	{
+		"id": "51b70e0e-f3c2-4ef3-bd15-c6bdff985d96",
+		"name": "Auto",
+		"description": "La mejor mac",
+		"code": "assd",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Autos"
+	},
+	{
+		"id": "1e90f317-2460-47ed-98e5-633694c29915",
+		"name": "Auto",
+		"description": "La mejor mac",
+		"code": "asscd",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Afutos"
+	},
+	{
+		"id": "f72b171e-77de-4bf3-a2ce-b4e1c5cde1a7",
+		"name": "Auto",
+		"description": "La mejor mac",
+		"code": "assvcd",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Afvutos"
+	},
+	{
+		"id": "7d8345ae-00ab-4466-9960-394d046d6446",
+		"name": "Auto",
+		"description": "La mejor mac",
+		"code": "assvhcd",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Afvuthos"
+	},
+	{
+		"id": "9a840ce0-35d8-4b15-a23e-e87babed2b13",
+		"name": "Auto",
+		"description": "La mejor mac",
+		"code": "assvhbcd",
+		"price": 12200,
+		"thumbnails": [],
+		"status": true,
+		"stock": 112,
+		"category": "Afvuthvvos"
 	}
 ]

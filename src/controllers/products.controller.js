@@ -23,12 +23,15 @@ export const getProductsFromFile = async () => {
 // Function to get the products
 export const getProducts = async (req, res) => {
     try{   
-        res.render('home', {});
         const products = await getProductsFromFile(); // Getting the products from fs
         const {limit} = req.query; // Getting the limit query
         if(limit){
-            return res.status(200).json({products: products.slice(0, limit)});
+            const data = products.slice(0, limit);
+            res.render('home.handlebars', { data })
+            // return res.status(200).json({products: data});
         }
+        const data = products;
+        res.render('home.handlebars', { data });
 
         // res.status(200).json({products: products});
     }catch(e){
@@ -95,6 +98,9 @@ export const addProduct = async (req, res) => {
 
         products.push(product); // Pushing to the array of products
         await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'));
+
+        const productsUpdated = await getProductsFromFile();
+        global.io.emit('newProductAdded', productsUpdated)
 
         res.status(200).json({
             message: 'Product added successfully'
