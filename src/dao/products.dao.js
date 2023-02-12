@@ -1,16 +1,24 @@
 import fs from 'fs';
+import { productModel } from './models/Product.model.js';
 
-class FileManager {
-    constructor(file){
-        this.file = `${process.cwd()}/src/files/${file}`
+class ProductDao {
+    async find(){
+        try{    
+            const products = await productModel.find().lean();
+            return products;
+        }catch(e){
+            console.log(e);
+        }
     }
 
-    async loadItems(){
-        if(fs.existsSync(this.file)){
-            const data = await fs.promises.readFile(this.file, 'utf8');
-            const items = JSON.parse(data);
-            return items;
+    async create(newProduct){
+        try{
+            const res = await productModel.create(newProduct);
+            return res;
+        }catch(e){
+            console.log(e);
         }
-        return "El archivo no existe";
-    }   
+    }
 }
+
+export default ProductDao;

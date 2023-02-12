@@ -1,5 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
+import ProductDao from "../dao/products.dao.js";
+const Product = new ProductDao();
 
 // Declaring the path for the data persistence
 
@@ -23,7 +25,7 @@ export const getProductsFromFile = async () => {
 // Function to get the products
 export const getProducts = async (req, res) => {
     try{   
-        const products = await getProductsFromFile(); // Getting the products from fs
+        const products = await Product.find(); // Getting the products from fs
         const {limit} = req.query; // Getting the limit query
         if(limit){
             const data = products.slice(0, limit);
@@ -31,6 +33,7 @@ export const getProducts = async (req, res) => {
             // return res.status(200).json({products: data});
         }
         const data = products;
+        console.log(data);
         res.render('home.handlebars', { data });
 
         // res.status(200).json({products: products});
@@ -62,7 +65,7 @@ export const getProductById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try{
-        const products = await getProductsFromFile(); // Getting the products from fs
+        const products = await Product.find(); // Getting the products from fs
         const { name, description, code, price, status, stock, category} = req.body; // Getting the data from de body
 
         if(!name || !description || !code || !price || !stock  || !category || !status){
@@ -96,10 +99,10 @@ export const addProduct = async (req, res) => {
             category,
         }
 
-        products.push(product); // Pushing to the array of products
+        await Product.create(product)
         await fs.promises.writeFile(path, JSON.stringify(products, null, '\t'));
 
-        const productsUpdated = await getProductsFromFile();
+        const productsUpdated = await Product.find();
         global.io.emit('newProductAdded', productsUpdated)
 
         res.status(200).json({

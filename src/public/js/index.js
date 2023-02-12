@@ -6,24 +6,20 @@ const liveProducts = document.getElementById("productsOnline");
 
 socket.on('newProductAdded', (data) => {
   document.getElementById("producstOffline").innerHTML = "";
-  
-  console.log(data);
-  let html = data.map( (data) => {
-    let respon =  
+  const {name, description, price, thumbnails, code, stock, status, category, id} = data;
+  console.log(name)
+  let html =   
     `<div class="product-info">
-      <h3>${data.name}</h3>
-      <p>description: ${data.description}</p>
-      <p>price: ${data.price}</p>
-      <p>thumbnail: ${data.thumbnails}</p>
-      <p>code: ${data.code}</p>
-      <p>stock: ${data.stock}</p>
-      <p>status: ${data.status}</p>
-      <p>category: ${data.category}</p>
-      <p>id: ${data.id}</p>
+      <h3>${name}</h3>
+      <p>description: ${description}</p>
+      <p>price: ${price}</p>
+      <p>thumbnail: ${thumbnails}</p>
+      <p>code: ${code}</p>
+      <p>stock: ${stock}</p>
+      <p>status: ${status}</p>
+      <p>category: ${category}</p>
+      <p>id: ${id}</p>
     </div>`;
-    return respon;
-
-  })
   liveProducts.innerHTML = html
 });
 
