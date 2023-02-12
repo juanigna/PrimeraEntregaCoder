@@ -1,5 +1,7 @@
+import mongoose from "mongoose"
 import { Server } from "socket.io"
 import app  from "./app.js"
+
 
 // Main function to initialize the server
 const main = () => {
@@ -8,13 +10,13 @@ const main = () => {
     })  
 
     global.io = new Server(httpServer);
-    
-    io.on('connection', socket => {
-        console.log("New client")
 
-        socket.on('message', data => {
-            console.log(data)
-        })
+    mongoose.set('strictQuery', true);
+    mongoose.connect('mongodb+srv://juani:juan44200@cluster0.zf75rie.mongodb.net/?retryWrites=true&w=majority', (error) => {
+        if(error){
+            console.log('error connecting to database');
+        }
+        console.log('connected to database')
     })
 }
 
