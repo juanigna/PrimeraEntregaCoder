@@ -37,7 +37,7 @@ Swal.fire({
   })
   
 
-  socket.on("messageLogs",(data) => {
+  socket.on("messageLive",(data) => {
     let log = document.getElementById("messageLogs");
     let messages= "";
     data.forEach(message => {

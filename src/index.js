@@ -50,10 +50,10 @@ const main = () => {
             const response = await Message.create(newMessage);
             
             messages.push(data)
-            //Evento que manda el mensaje en vivo al handlebar
-            io.emit('messageLogs', messages);
-          } catch (error) {
-            console.error('Error al guardar el mensaje en la base de datos:', error);
+            //Evento que manda el mensaje en vivo al chat
+            io.emit('messageLive', messages);
+          } catch (e) {
+            console.error(e);
           }
         });
     
