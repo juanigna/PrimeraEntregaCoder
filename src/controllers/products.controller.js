@@ -45,10 +45,9 @@ export const getProducts = async (req, res) => {
 // Function to get the product by id
 export const getProductById = async (req, res) => {
     try{
-        const products = await getProductsFromFile(); // Getting the products from fs
         const {pid} = req.params; // Getting the productId from params
+        const prodFound = await Product.findById(pid); // Getting the products from fs
         
-        const prodFound = products.find(product => product.id === pid); // Searching for the product by id
         if(prodFound){
             return res.status(200).json({product: prodFound});
         }else{
@@ -116,25 +115,14 @@ export const addProduct = async (req, res) => {
 //Function to update a product
 
 export const updateProduct = async (req, res) => {
-    const products = await getProductsFromFile(); // Getting the products from fs
     const {pid} = req.params; // Getting the product id from params
     const {...changes} = req.body  // Getting the changes to update
     console.log(pid);
     try{
-        const prodIndex = products.findIndex(product => String(product.id) === String(pid)); // Searcging for the product index
-        if(prodIndex >= 0){
+        const prodFound = await Product.findById(pid);
 
-            // Creating the updated product
-            const updatedProduct = {
-                ...products[prodIndex],
-                ...changes
-            }
-
-
-            products[prodIndex] = updatedProduct; //Remplazing the product
-
-            await fs.promises.writeFile(path, JSON.stringify(products, null, '\t')); // Writing the new product
-
+        if(prodFound){
+            Product.updateProduct(pid, changes);
             res.status(200).json({message: "Product updated successfully"});
         }else{
             res.status(404).json({message: "Product not found"});
@@ -148,13 +136,10 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try{
-        const products = await getProductsFromFile(); // Getting the products from fs
         const {pid} = req.params; // Getting the product id from the params
-        const prodFound = products.find(product => product.id === pid); //Seraching the product by id
+        const prodFound = Product.findById(pid)//Seraching the product by id
         if(prodFound){
-            const prodIndex = products.indexOf(prodFound); // Index of the product
-            products.splice(prodIndex, 1); // Remove the product
-            await fs.promises.writeFile(path, JSON.stringify(products, null, '\t')); // Write the product
+            await Product.deleteProduct(pid)
             return res.status(200).json({message: "Product deleted successfully"});
         }else{
             return res.status(404).json({message: "Product not found"});

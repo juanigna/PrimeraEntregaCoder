@@ -1,15 +1,20 @@
 [
 	{
-		"id": "67d69607-2704-4e44-a259-93d31cb27b74",
-		"products": []
+		"_id": "63efa7426ef1c22904bc37be",
+		"id": "a17db2d5-bfcf-4219-b4d6-4def1e60b8a2",
+		"products": [],
+		"__v": 0
 	},
 	{
-		"id": "03b400a9-1ff3-4013-8857-3c0ae9cbdce3",
-		"products": [
-			{
-				"id": "2150cbfb-6a2f-4331-8c87-525bf5078219",
-				"quantity": 2
-			}
-		]
+		"_id": "63f248ef9210c01ea658d2f7",
+		"id": "09614ad3-bb5e-4ce5-9847-b88b52c73abe",
+		"products": [],
+		"__v": 0
+	},
+	{
+		"_id": "63f2688278887270b8c3a4de",
+		"id": "65c9f5f2-257f-4098-91e2-2f11aef8314e",
+		"products": [],
+		"__v": 0
 	}
 ]

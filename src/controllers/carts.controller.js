@@ -1,20 +1,19 @@
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { getProducts, getProductsFromFile } from './products.controller.js';
-
+import CartDao from '../dao/carts.dao.js';
+import { cartModel } from '../dao/models/Cart.model.js';
+import ProductDao from '../dao/products.dao.js';
+import { getProducts } from './products.controller.js';
+const Cart = new CartDao();
+const Product = new ProductDao();
 // Declaring the path for the data persistence
 const path = "./src/files/carrito.json";
 
 // Function to get the carts
-const getCarts = async (req, res) => {
-    try{
-        if(fs.existsSync(path)){
-            const data = await fs.promises.readFile(path, 'utf-8');
-            const carts = JSON.parse(data);
-            return carts  
-        }else{
-            return []
-        }
+export const getCarts = async (req, res) => {
+    try{        
+        const carts = await Cart.getCarts();
+        return res.status(200).json({message: carts})  
     }catch(e){
         return res.status(404).json({message: e.message});
     }
@@ -23,7 +22,7 @@ const getCarts = async (req, res) => {
 
 // Function to add a new cart
 export const newCart = async (req, res) => {
-    const carts = await getCarts(); // Getting the carts
+    const carts = await Cart.getCarts(); // Getting the carts
     try{
 
         // Creating a new cart
@@ -32,8 +31,7 @@ export const newCart = async (req, res) => {
             products: []
         }
 
-        carts.push(newCart); // Pushing the new cart
-
+        Cart.createCart(newCart);
         await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t'));
 
         return res.status(200).json({message: 'Cart created successfully'});
@@ -47,9 +45,7 @@ export const newCart = async (req, res) => {
 export const getProductsByCart = async (req, res) => {
     try{    
         const {cid} = req.params; // Getting the cart id by params
-        const carts = await getCarts(); // Getting the carts
-
-        const cartFound = carts.find(cart => cart.id === cid); // Seraching a cart by id
+        const cartFound = await Cart.getCartById(cid)
         
         if(cartFound){
             return res.status(200).json({message: cartFound.products});
@@ -68,33 +64,29 @@ export const addProdToCart = async (req, res) => {
     
     try{
         const {cid, pid} = req.params; // Getting the product id and the cart id from params
-        const products = await getProductsFromFile(); // Getting the products 
-        const carts = await getCarts(); // Getting the carts
 
-        const prodFound = products.find(product => product.id === pid); // Serching the product by id
-        const cartFound = carts.find(cart => cart.id === cid); // Serching the cart by id
+        const prodFound = await Product.findById(pid) // Serching the product by id
+        const cartFound = await Cart.getCartById(cid);
         
         if(prodFound && cartFound){
-            const prodWithSameId = cartFound.products.find(product => product.id === prodFound.id); // Serching if there is a product with same id
-
-            if(prodWithSameId){
-                prodWithSameId.quantity +=1; // Add the product quantity +1
-                await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t')); // Write the new cart
-                return res.status(200).json({message: 'Product added succesfully'})
+            const prodWithSameId = cartFound.products.findIndex(p => p.id.toString() === pid); // Serching if there is a product with same id
+            console.log(prodWithSameId)
+            if(prodWithSameId >= 0){
+                cartFound.products[prodWithSameId].quantity += 1;// Add the product quantity +1
+                await cartModel.findOneAndUpdate({_id: cid}, cartFound)// Write the new cart
+                return res.status(200).json({message: 'Product alredy added'})
             }
 
             // Creating the product to add to the cart
             let productToAdd = {
-                id: prodFound.id,
+                id: prodFound._id,
                 quantity: 1
             }
-
-            cartFound.products.push(productToAdd); // Pushing the product to the cart
-
-            await fs.promises.writeFile(path, JSON.stringify(carts, null, '\t')); // Writing the new cart
-            res.status(200).json({message: 'Product added successfully'})
+            await Cart.updateCartProdById(cid, productToAdd);
+            // const res = await Cart.updateCartProdById(cid, cartFound);
+            res.status(200).json({message: 'Product added successfullyyy'})
         }else{
-            res.status(404).json({message: 'Product or cart not found'});
+            res.status(404  ).json({message: 'Product or cart not found'});
         }
     }catch(e){
         return res.status(404).json({error: e.message})
