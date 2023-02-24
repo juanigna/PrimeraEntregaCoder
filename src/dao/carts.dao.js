@@ -14,7 +14,7 @@ class CartDao {
 
     async getCartById(id){
         try{
-            const cart = await cartModel.findById({"_id": id})
+            const cart = await cartModel.findById({"_id": id}).populate('products.id').lean();
             return cart
         }catch(e){
             console.log(e?.message)

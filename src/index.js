@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import { Server } from "socket.io"
 import app  from "./app.js"
 import { MessageDao } from "./dao/messages.dao.js"
+import { productModel } from "./dao/models/Product.model.js"
 const Message = new MessageDao()
 
 //Mocked Array for the messages
@@ -9,7 +10,7 @@ let messages = [];
 
 
 // Main function to initialize the server
-const main = () => {
+const main = async () => {
     const httpServer = app.listen(app.get('port'), () => {
         console.log('listening on port ' + app.get('port'))
     })  

@@ -5,6 +5,7 @@ import cartsRoutes from './routes/carts.routes.js';
 import realTimeRoutes from "./routes/realTime.routes.js"
 import handlebars from 'express-handlebars';
 import { __dirname } from './utils.js';
+
 // Setting app
 
 const app = express();
@@ -22,7 +23,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended:true}))
+app.use(express.urlencoded({ extended:false}))
 
 // Using the routes
 app.use('/api/products', productsRoutes)

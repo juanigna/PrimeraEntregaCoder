@@ -1,19 +1,29 @@
-<div id="producstOffline">
-    {{#each products}}
+<div id="producstOffline" class="container">
+  {{#each products.payload}}
     <div class="user-info">
       <span id="userInfo">
-      <h2>name: {{this.name}}</h2>
-      <p>description: {{this.description}}</p>
-      <p>price: {{this.price}}</p>
-      <p>thumbnail: {{this.thumbnail}}</p>
-      <p>code: {{this.code}}</p>
-      <p>stock: {{this.stock}}</p>
-      <p>status: {{this.status}}</p>
-      <p>category: {{this.category}}</p>
-      <p>id: {{this.id}}</p>
+        <h2>name: {{this.name}}</h2>
+        <p>description: {{this.description}}</p>
+        <p>price: {{this.price}}</p>
+        <p>thumbnail: {{this.thumbnail}}</p>
+        <p>code: {{this.code}}</p>
+        <p>stock: {{this.stock}}</p>
+        <p>status: {{this.status}}</p>
+        <p>category: {{this.category}}</p>
+        <p>id: {{this.id}}</p>
+        <button id="add-to-cart" class="addButton">Add to cart</button>
+
       </span>
     </div>
   {{/each}}
+  <div class="buttons-links">
+    {{#if products.prevLink}}
+      <a href="">Prev page</a>
+    {{/if}}
+    {{#if products.nextLink}}
+      <a href="">Next page</a>
+    {{/if}}
+  </div>
 </div>
 
 <div id="productsOnline">

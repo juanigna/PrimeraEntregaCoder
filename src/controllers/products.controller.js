@@ -25,17 +25,14 @@ export const getProductsFromFile = async () => {
 // Function to get the products
 export const getProducts = async (req, res) => {
     try{   
-        const products = await Product.find(); // Getting the products from fs
-        const {limit} = req.query; // Getting the limit query
-        if(limit){
-            const data = products.slice(0, limit);
-            res.render('home.handlebars', { data })
-            // return res.status(200).json({products: data});
-        }
-        const data = products;
-        console.log(data);
-        res.render('home.handlebars', { data });
-
+        const limit = req.query.limit || 3; // Getting the limit query
+        const page = req.query.page || 1;
+        const query = req.query.q ? JSON.parse(req.query.q) : {};
+        const sort = req.query.sort || {};
+        const products = await Product.paginate(req, res ,page,limit, query, sort);
+        
+        res.render('home.handlebars', { products });
+        
         // res.status(200).json({products: products});
     }catch(e){
         return res.status(404).json({message: e.message});

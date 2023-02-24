@@ -46,9 +46,13 @@ export const getProductsByCart = async (req, res) => {
     try{    
         const {cid} = req.params; // Getting the cart id by params
         const cartFound = await Cart.getCartById(cid)
-        
+        const data = {
+            ...cartFound,
+            cartId: cid,
+            req: req
+        };
         if(cartFound){
-            return res.status(200).json({message: cartFound.products});
+            res.render('cart.handlebars', {data});
         }else{
             return res.status(404).json({message: 'Cart not found'});
         }
