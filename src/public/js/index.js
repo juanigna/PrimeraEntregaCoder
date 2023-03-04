@@ -3,7 +3,6 @@ const socket = io();
 
 const liveProducts = document.getElementById("productsOnline");
 
-
 socket.on('newProductAdded', (data) => {
   document.getElementById("producstOffline").innerHTML = "";
   const {name, description, price, thumbnails, code, stock, status, category, id} = data;

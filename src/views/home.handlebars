@@ -1,5 +1,9 @@
 <div>
     <h1>Lista de productos</h1>
+    <h2>Bienvenido {{user.first_name}} {{user.last_name}}</h2>
+    {{#if user}}
+      <a href="/logout">Logout</a>
+    {{/if}}
     <div class="container">
         {{#each products.payload}}
             <div class="user-info">
