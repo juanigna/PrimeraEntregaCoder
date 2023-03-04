@@ -11,7 +11,7 @@ export const logout = (req, res) => {
         if(err){
             return res.json({status: 'Logout Error'})
         }
-
-        res.status(200).send('Logout!')
     })
+
+    res.render('logout.handlebars');
 }
