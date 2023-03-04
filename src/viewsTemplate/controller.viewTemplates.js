@@ -15,3 +15,8 @@ export const logout = (req, res) => {
 
     res.render('logout.handlebars');
 }
+
+export const profile = (req, res) => {
+    const {user} = req.session;
+    res.render('profile.handlebars', {user});
+}

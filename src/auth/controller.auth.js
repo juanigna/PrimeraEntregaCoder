@@ -15,17 +15,12 @@ export const loginLogic = async (req, res) => {
        req.session.user = {
         first_name: user.first_name,
         last_name: user.last_name,
-        email: user.email
-       }
-    
-       console.log(req.session.user)
-        
-      
+        email: user.email,
+        role: user.role
+       }        
       
        return res.status(200).json({success:"Se logueo correctamente"})
     
-    
-      
         }
      catch(error) {
         console.error("Se ha producido un error: " + error.message);

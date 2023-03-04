@@ -1,8 +1,8 @@
 import { User } from '../dao/models/User.model.js';
 
 export const userPost = async (req, res) => {
-    let newUserInfo = {};
     try{
+        let newUserInfo = {};
         const {first_name, last_name, age, email, password} = req.body; 
         if(email == "adminCoder@coder.com" && password == "adminCod3r123") {
             newUserInfo = {
@@ -19,7 +19,8 @@ export const userPost = async (req, res) => {
             last_name,
             age,
             email,
-            password
+            password,
+            role: "usuario"
         }
 
         const newUser = await User.create(newUserInfo);
