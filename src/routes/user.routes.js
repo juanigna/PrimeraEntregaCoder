@@ -1,8 +1,25 @@
 import { Router } from "express";
-import { userPost } from '../users/users.controller.js';
+import passport from "passport";
+import { userPost } from "../users/users.controller.js";
 
 const router = Router();
 
-router.post('/', userPost);
+router.post(
+  "/",
+  passport.authenticate("register", {
+    failureRedirect: "/users/failedRegister",
+    successRedirect: "/users/successRegister",
+  }),
+  userPost
+);
+
+router.get("/failedRegister", async (req, res) => {
+  res.send({ message: "Fallo el registro" });
+});
+
+router.get("/successRegister", async (req, res) => {
+  console.log("User registered");
+  res.send({ message: "User registered!" });
+});
 
 export default router;

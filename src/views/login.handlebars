@@ -1,17 +1,21 @@
 <body>
-    <form action="" method="post"  id="loginForm">
-    
-    <label for="email">Correo electrónico:</label>
-    <input type="email"  name="email"><br><br>
-    
+  <form action="" method="post" id="loginForm">
+
+    <label for="user">Correo electrónico:</label>
+    <input type="email" name="email" /><br /><br />
+
     <label for="password">Contraseña:</label>
-    <input type="password"  name="password"><br><br>
-    
-    <input type="submit" value="Enviar">
+    <input type="password" name="password" /><br /><br />
+
+    <input type="submit" value="Enviar" />
     <a href="/signup" class="btn-primary">Sign up</a>
-    </form>
+    <br />
+    <br />
+    <a href="/auth/githubLogin" class="btn-primary">Login with Github</a>
+    <a href="/forgotPassword" class="btn-primary">Forgot Password?</a>
+
+  </form>
 
 </body>
-
-
+<a href="/api/products" id="productsLink"></a>
 <script src="/js/login.js"></script>

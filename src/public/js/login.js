@@ -1,33 +1,27 @@
 const form = document.getElementById("loginForm");
+const productsLink = document.getElementById("productsLink");
 
 form.addEventListener("submit", (e) => {
-e.preventDefault();
+  e.preventDefault();
 
-const formData = new FormData(form);
-const obj = {};
+  const formData = new FormData(form);
+  const obj = {};
 
-formData.forEach((value,key) => {
+  formData.forEach((value, key) => {
     obj[key] = value;
-})
+  });
 
-const url = "/auth";
-const method = "POST";
-const headers = {
-    "Content-type": "application/json"
-};
+  const url = "/auth";
+  const method = "POST";
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
 
-const body = JSON.stringify(obj);
+  const body = JSON.stringify(obj);
 
-
-fetch(url,{method,headers,body})
-    .then(response => {
-        return response.json();})
-        .then(data => {
-            if (data.success) {
-                window.location.href = '/api/products';
-            } else {
-                console.log(data.error);
-            }
-        })
-    .catch(error =>console.log(error) )
+  fetch(url, { method, headers, body })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
 });
