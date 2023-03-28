@@ -4,14 +4,7 @@ import { userPost } from "../users/users.controller.js";
 
 const router = Router();
 
-router.post(
-  "/",
-  passport.authenticate("register", {
-    failureRedirect: "/users/failedRegister",
-    successRedirect: "/users/successRegister",
-  }),
-  userPost
-);
+router.post("/", userPost);
 
 router.get("/failedRegister", async (req, res) => {
   res.send({ message: "Fallo el registro" });

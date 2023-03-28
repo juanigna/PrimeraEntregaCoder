@@ -5,10 +5,32 @@ import { User } from "../dao/models/User.model.js";
 import { createHash, isValidPassword } from "../utils/cryptPassword.js";
 import bcrypt from "bcrypt";
 import * as dotenv from "dotenv";
+import { cookieExtractor } from "../utils/cookieExtractor.js";
+import jwt from "passport-jwt";
+import { generateToken } from "../utils/jwt.utils.js";
 dotenv.config();
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
 export const initializePassport = () => {
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: "juaniBocchi",
+      },
+      async (jwt_payload, done) => {
+        try {
+          done(null, jwt_payload);
+        } catch (e) {
+          done(e);
+        }
+      }
+    )
+  );
+
   passport.use(
     "register",
     new LocalStrategy(
@@ -51,8 +73,10 @@ export const initializePassport = () => {
             };
           }
 
+          const token = generateToken(newUserInfo);
+
           const newUser = await User.create(newUserInfo);
-          return done(null, newUser);
+          return done(null, { newUser, token });
         } catch (e) {
           done(e);
         }

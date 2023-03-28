@@ -4,11 +4,7 @@ import { forgotPassswordLogic, loginLogic } from "../auth/controller.auth.js";
 
 const router = Router();
 
-router.post(
-  "/",
-  passport.authenticate("login", { failureRedirect: "/auth/failedLogin" }),
-  loginLogic
-);
+router.post("/", loginLogic);
 
 router.get(
   "/github",

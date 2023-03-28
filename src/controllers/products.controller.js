@@ -25,14 +25,12 @@ export const getProductsFromFile = async () => {
 // Function to get the products
 export const getProducts = async (req, res) => {
   try {
-    const { user } = req.session;
-    console.log(user);
+    const user = req.user;
     const limit = req.query.limit || 3; // Getting the limit query
     const page = req.query.page || 1;
     const query = req.query.q ? JSON.parse(req.query.q) : {};
     const sort = req.query.sort || {};
     const products = await Product.paginate(req, res, page, limit, query, sort);
-
     res.render("home.handlebars", { products, user });
 
     // res.status(200).json({products: products});
