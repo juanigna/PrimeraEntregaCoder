@@ -99,5 +99,17 @@
 		"category": "Autos",
 		"status": true,
 		"__v": 0
+	},
+	{
+		"_id": "64030e724c068d77604d7173",
+		"name": "Celular",
+		"description": "El mejor celu",
+		"code": "CEL43",
+		"price": 14000,
+		"thumbnail": [],
+		"status": true,
+		"stock": 14,
+		"category": "Electronic",
+		"__v": 0
 	}
 ]

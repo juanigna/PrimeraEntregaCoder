@@ -1,7 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
 import { forgotPassswordLogic, loginLogic } from "../auth/controller.auth.js";
-
 const router = Router();
 
 router.post("/", loginLogic);
@@ -37,4 +36,12 @@ router.get("/failedLogin", async (req, res) => {
   res.send({ message: "Fallo el login" });
 });
 
+
+router.get('/logout', async (req, res) => {
+  try{
+    req.logout(); 
+  }catch(err){
+    res.status(400).json({msg: err})
+  }
+})
 export default router;

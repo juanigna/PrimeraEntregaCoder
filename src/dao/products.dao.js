@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { productModel } from './models/Product.model.js';
 
+
 class ProductDao {
     async paginate(req, res ,page,limit, query, sort){
         try{

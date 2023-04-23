@@ -1,11 +1,10 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-import ProductDao from "../dao/products.dao.js";
-const Product = new ProductDao();
-
+import { productService } from '../dao/repositories/index.js';
 // Declaring the path for the data persistence
-
 const path = "./src/files/products.json";
+
+
 
 //Function to get the products from fs
 export const getProductsFromFile = async () => {
@@ -30,7 +29,7 @@ export const getProducts = async (req, res) => {
     const page = req.query.page || 1;
     const query = req.query.q ? JSON.parse(req.query.q) : {};
     const sort = req.query.sort || {};
-    const products = await Product.paginate(req, res, page, limit, query, sort);
+    const products = await productService.paginate(req, res, page, limit, query, sort);
     res.render("home.handlebars", { products, user });
 
     // res.status(200).json({products: products});
@@ -43,7 +42,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { pid } = req.params; // Getting the productId from params
-    const prodFound = await Product.findById(pid); // Getting the products from fs
+    const prodFound = await productService.getProductById(pid); // Getting the products from fs
 
     if (prodFound) {
       return res.status(200).json({ product: prodFound });
@@ -59,7 +58,7 @@ export const getProductById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const products = await Product.find(); // Getting the products from fs
+    const products = await productService.getProducts(); // Getting the products from fs
     const { name, description, code, price, status, stock, category } =
       req.body; // Getting the data from de body
 
@@ -104,10 +103,10 @@ export const addProduct = async (req, res) => {
       category,
     };
 
-    await Product.create(product);
+    await productService.createProduct(product);
     await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
 
-    const productsUpdated = await Product.find();
+    const productsUpdated = await productService.getProducts();
     global.io.emit("newProductAdded", productsUpdated);
 
     res.status(200).json({
@@ -125,10 +124,10 @@ export const updateProduct = async (req, res) => {
   const { ...changes } = req.body; // Getting the changes to update
   console.log(pid);
   try {
-    const prodFound = await Product.findById(pid);
+    const prodFound = await productService.getProductById(pid);
 
     if (prodFound) {
-      Product.updateProduct(pid, changes);
+      productsService.updateProduct(pid, changes);
       res.status(200).json({ message: "Product updated successfully" });
     } else {
       res.status(404).json({ message: "Product not found" });
@@ -143,9 +142,9 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params; // Getting the product id from the params
-    const prodFound = Product.findById(pid); //Seraching the product by id
+    const prodFound = productService.getProductById(pid); //Seraching the product by id
     if (prodFound) {
-      await Product.deleteProduct(pid);
+      await productService.deleteProduct(pid);
       return res.status(200).json({ message: "Product deleted successfully" });
     } else {
       return res.status(404).json({ message: "Product not found" });
