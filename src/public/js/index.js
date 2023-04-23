@@ -2,6 +2,17 @@ const socket = io();
 
 
 const liveProducts = document.getElementById("productsOnline");
+const addToCartBtn = document.getElementById("add-to-cart")
+
+addToCartBtn.addEventListener("click", () => {
+  fetch("", { method, headers, body })
+  .then((response) => {
+    response.json();
+  })
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+});
+
 
 socket.on('newProductAdded', (data) => {
   document.getElementById("producstOffline").innerHTML = "";

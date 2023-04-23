@@ -18,13 +18,6 @@ const main = async () => {
     global.io = new Server(httpServer);
 
     mongoose.set('strictQuery', true);
-    mongoose.connect('mongodb+srv://juani:juan44200@cluster0.zf75rie.mongodb.net/?retryWrites=true&w=majority', (error) => {
-        if(error){
-            console.log('error connecting to database');
-        }
-        console.log('connected to database')
-    })
-
 
     app.get('/chat', async (req, res) => {
         res.render('chats.handlebars')
