@@ -106,12 +106,16 @@ export const purchaseCart = async (req, res) => {
         if (!cartFound) return res.status(404).json({ message: 'Cart not found' });
 
         const productsFromCart = cartFound.products;
-        const productsToPurchase = productsFromCart.map(async (prod) => {
+        let prodWithNoStock = []
+        const prodsToPurchase = productsFromCart.map(async (prod, i) => {
             const prodFromCartId = await productService.getProductById(String(prod.id._id))
             if (prodFromCartId.stock >= prod.quantity) {
-                const totalPrice = productsFromCart.reduce((acc, curr) => acc + curr.amount, 0)
+                const totalPrice = prod.amount;
                 const newStock = prodFromCartId.stock - prod.quantity
                 await productModel.findOneAndUpdate({ _id: prod.id._id }, { stock: newStock })
+
+
+                await cartModel.findOneAndUpdate({ _id: cid }, { $pull: { products: { id: prod.id._id } } })
                 const data = {
                     code: uuidv4(),
                     purchase_datatime: new Date(),
@@ -120,12 +124,13 @@ export const purchaseCart = async (req, res) => {
 
                 await cartService.payCart(data);
             } else {
-                return res.status(400).json({ message: "Lo lamento, no hay mas stock de este producto!" })
+                return prod
             }
         })
 
-
-        return res.status(200).json({ productsToPurchase })
+        prodWithNoStock.push(productsFromCart)
+        console.log(prodWithNoStock)
+        return res.status(200).json({ noStock: { prodWithNoStock } })
     }
     catch (error) {
         return res.status(404).json({ error: error.message })
