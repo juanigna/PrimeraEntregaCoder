@@ -1,14 +1,8 @@
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import CartDao from '../dao/carts.dao.js';
 import { cartModel } from '../dao/models/Cart.model.js';
 import { productModel } from '../dao/models/Product.model.js';
-import { ticketModel } from '../dao/models/Ticket.model.js';
-import ProductDao from '../dao/products.dao.js';
 import { cartService, productService } from '../dao/repositories/index.js';
-import { getProducts } from './products.controller.js';
-const Cart = new CartDao();
-const Product = new ProductDao();
 // Declaring the path for the data persistence
 const path = "./src/files/carrito.json";
 
@@ -107,7 +101,7 @@ export const purchaseCart = async (req, res) => {
 
         const productsFromCart = cartFound.products;
         let prodWithNoStock = []
-        const prodsToPurchase = productsFromCart.map(async (prod, i) => {
+        productsFromCart.map(async (prod, i) => {
             const prodFromCartId = await productService.getProductById(String(prod.id._id))
             if (prodFromCartId.stock >= prod.quantity) {
                 const totalPrice = prod.amount;
@@ -119,9 +113,10 @@ export const purchaseCart = async (req, res) => {
                 const data = {
                     code: uuidv4(),
                     purchase_datatime: new Date(),
-                    amount: totalPrice
-                }
+                    amount: totalPrice,
+                    purchaser: req.user.email
 
+                }
                 await cartService.payCart(data);
             } else {
                 return prod
