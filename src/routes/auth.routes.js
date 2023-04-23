@@ -39,7 +39,8 @@ router.get("/failedLogin", async (req, res) => {
 
 router.get('/logout', async (req, res) => {
   try{
-    req.logout(); 
+    res.status(202).clearCookie("authToken"); 
+    res.redirect("/login");
   }catch(err){
     res.status(400).json({msg: err})
   }

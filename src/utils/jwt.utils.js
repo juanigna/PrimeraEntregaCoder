@@ -35,12 +35,14 @@ export const authTokenCookies = (req, res, next) => {
 
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
+    const token = req.cookies.authToken;
     passport.authenticate(strategy, function (err, user, info) {
       if (err) return next(err);
+      if(!token) return res.redirect("/login")
       if (!user) {
         return res
           .status(401)
-          .send({ error: info.message ? info.message : info.toString() });
+          .send({ error: info.message ? info.message : info.toString() })
       }
 
       req.user = user.user;

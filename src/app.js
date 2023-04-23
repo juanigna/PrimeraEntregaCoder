@@ -13,6 +13,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
+import dotenv from "dotenv"
+dotenv.config();
 
 // Setting appb
 
@@ -20,23 +22,11 @@ const app = express();
 
 // Setting port
 
-app.set("port", 8080);
+app.set("port", process.env.PORT || 8080);
 
 // Middlewares
 
 app.use(cookieParser("somethinHere"));
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://juani:juan44200@cluster0.zf75rie.mongodb.net/session?retryWrites=true&w=majority",
-      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-    }),
-    secret: "tosecret",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
@@ -47,7 +37,6 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
 // Using the routes
 app.use("/", viewTemplateRoutes);
 app.use("/api/products", productsRoutes);

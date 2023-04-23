@@ -7,16 +7,23 @@ import {
   updateProduct,
 } from "../controllers/products.controller.js";
 import uploader from "../utils.js";
-import { authTokenCookies, passportCall } from "../utils/jwt.utils.js";
+import { passportCall } from "../utils/jwt.utils.js";
+import jwt from "passport-jwt";
 
 const router = Router();
-
+const privateAccess = (req,res, next) => {
+  const token = req.cookies.authToken;
+  if(!token){
+      return res.redirect('/login');
+  }
+  next();
+}
 // Routes for products
 
-router.get("/", passportCall("jwt") ,getProducts);
+router.get("/", passportCall("jwt"), privateAccess ,getProducts);
 router.get("/:pid", getProductById);
 router.post("/", uploader.array("files", 5), passportCall("jwt"), addProduct);
 router.put("/:pid", passportCall("jwt"), updateProduct);
-router.delete("/:pid", deleteProduct);
+router.delete("/:pid", passportCall("jwt"), deleteProduct);
 
 export default router;

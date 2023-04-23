@@ -1,5 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
+import { Products } from '../dao/factory.js';
 import { productService } from '../dao/repositories/index.js';
 // Declaring the path for the data persistence
 const path = "./src/files/products.json";
