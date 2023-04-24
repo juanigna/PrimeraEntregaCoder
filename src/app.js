@@ -9,8 +9,6 @@ import authRoutes from "./routes/auth.routes.js";
 import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
 import cookieParser from "cookie-parser";
-import session from "express-session";
-import MongoStore from "connect-mongo";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
 import dotenv from "dotenv"
@@ -27,7 +25,6 @@ app.set("port", process.env.PORT || 8080);
 // Middlewares
 
 app.use(cookieParser("somethinHere"));
-
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -35,8 +32,11 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
+
+//Initialize passport
 initializePassport();
 app.use(passport.initialize());
+
 // Using the routes
 app.use("/", viewTemplateRoutes);
 app.use("/api/products", productsRoutes);

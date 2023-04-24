@@ -6,7 +6,7 @@ export let Carts;
 switch (config.persistense) {
     case "MONGO":
         mongoose.set('strictQuery', true);
-        mongoose.connect('mongodb+srv://juani:juan44200@cluster0.zf75rie.mongodb.net/?retryWrites=true&w=majority', (error) => {
+        mongoose.connect(`mongodb+srv://juani:${process.env.MONGO_PASS}@cluster0.zf75rie.mongodb.net/?retryWrites=true&w=majority`, (error) => {
             if (error) {
                 console.log('error connecting to database');
             }
