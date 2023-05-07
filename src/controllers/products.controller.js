@@ -2,6 +2,7 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { Products } from '../dao/factory.js';
 import { productService } from '../dao/repositories/index.js';
+import { runProductMock } from "../services/mocks/productMock.js";
 // Declaring the path for the data persistence
 const path = "./src/files/products.json";
 
@@ -38,6 +39,15 @@ export const getProducts = async (req, res) => {
     return res.status(404).json({ message: e.message });
   }
 };
+
+export const getMocksProds = async (req, res) => {
+  try{
+    const prods = runProductMock(100);
+    res.json({payload: prods})
+  }catch(e){
+    console.log(e)
+  }
+}
 
 // Function to get the product by id
 export const getProductById = async (req, res) => {

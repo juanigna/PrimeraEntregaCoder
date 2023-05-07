@@ -2,13 +2,14 @@ import { Router } from "express";
 import {
   addProduct,
   deleteProduct,
+  getMocksProds,
   getProductById,
   getProducts,
   updateProduct,
 } from "../controllers/products.controller.js";
 import uploader from "../utils.js";
 import { passportCall } from "../utils/jwt.utils.js";
-import jwt from "passport-jwt";
+import { runProductMock } from "../services/mocks/productMock.js";
 
 const router = Router();
 const privateAccess = (req,res, next) => {
@@ -22,8 +23,11 @@ const privateAccess = (req,res, next) => {
 
 router.get("/", passportCall("jwt"), privateAccess ,getProducts);
 router.get("/:pid", getProductById);
+router.get("/mock/prods", getMocksProds)
 router.post("/", uploader.array("files", 5), passportCall("jwt"), addProduct);
 router.put("/:pid", passportCall("jwt"), updateProduct);
 router.delete("/:pid", passportCall("jwt"), deleteProduct);
+
+
 
 export default router;

@@ -6,11 +6,10 @@ export let Carts;
 switch (config.persistense) {
     case "MONGO":
         mongoose.set('strictQuery', true);
-        mongoose.connect(`mongodb+srv://juani:${process.env.MONGO_PASS}@cluster0.zf75rie.mongodb.net/?retryWrites=true&w=majority`, (error) => {
-            if (error) {
-                console.log('error connecting to database');
-            }
-            console.log('connected to database')
+        mongoose.connect(`mongodb+srv://juani:${process.env.MONGO_PASS}@cluster0.3wutrwm.mongodb.net/test`).then(() => {
+            console.log("Connected to DB")
+        }).catch((err) => {
+            console.log("Error trying to connect to DB")
         })
 
         const { default: ProductsMongo } = await import('./products.dao.js');

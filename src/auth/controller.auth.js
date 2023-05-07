@@ -6,16 +6,6 @@ import bcryptjs from "bcrypt";
 export const loginLogic = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // if (!req.user)
-    //   return res.status(400).json({ error: "Credenciales invalidas" });
-
-    // req.session.user = {
-    //   first_name: req.user.first_name,
-    //   last_name: req.user.last_name,
-    //   age: req.user.age,
-    //   email: req.user.email,
-    //   role: req.user.role,
-    // };
     const user = await User.findOne({ email });
     if (!user) return res.status(403).json({ error: "No existe este usuario" });
 

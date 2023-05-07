@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
 import { Server } from "socket.io"
 import app from "./app.js"
 import { MessageDao } from "./dao/messages.dao.js"
+
 const Message = new MessageDao()
 
 //Mocked Array for the messages
@@ -15,8 +15,6 @@ const main = async () => {
   })
 
   global.io = new Server(httpServer);
-
-  mongoose.set('strictQuery', true);
 
   app.get('/chat', async (req, res) => {
     res.render('chats.handlebars')
@@ -53,6 +51,7 @@ const main = async () => {
 
   });
 
+  
 }
 
 main();
