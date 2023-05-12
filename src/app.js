@@ -7,20 +7,19 @@ import userRoutes from "./routes/user.routes.js";
 import viewTemplateRoutes from "./routes/viewTemplates.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import handlebars from "express-handlebars";
-import  { handlerError } from "./middlewares/errors/handler.error.js"
 import { __dirname } from "./utils.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
 import compression from "express-compression";
-import methodOverride from "method-override"
 import dotenv from "dotenv"
-import EErrors from "./services/enums.js";
+import { handlerError } from "./middlewares/errors/handler.error.js";
 dotenv.config();
 
 // Setting app
 
 const app = express();
+
 
 // Setting port
 
@@ -52,8 +51,5 @@ app.use("/api/carts", cartsRoutes);
 app.use("/realtimeproducts", realTimeRoutes);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-  })
+app.use(handlerError)
 export default app;

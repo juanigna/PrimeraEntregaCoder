@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Products } from '../dao/factory.js';
 import { productService } from '../dao/repositories/index.js';
 import { runProductMock } from "../services/mocks/productMock.js";
+import { logger } from "../utils/logger.js";
 // Declaring the path for the data persistence
 const path = "./src/files/products.json";
 
@@ -141,6 +142,7 @@ export const updateProduct = async (req, res) => {
       productsService.updateProduct(pid, changes);
       res.status(200).json({ message: "Product updated successfully" });
     } else {
+    logger.warning('Product Not Found')
       res.status(404).json({ message: "Product not found" });
     }
   } catch (err) {
