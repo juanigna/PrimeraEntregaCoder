@@ -19,12 +19,20 @@ const privateAccess = (req,res, next) => {
   }
   next();
 }
+
+const onlyAdmin = (req, res, next) => {
+  const user = req.user;
+  if(user.role !== "admin" || user.role !== "premium"){
+    return res.status(401).json({message: "Unauthorized"})
+  }
+  next();
+}
 // Routes for products
 
 router.get("/", passportCall("jwt"), privateAccess ,getProducts);
 router.get("/:pid", getProductById);
 router.get("/mock/prods", getMocksProds)
-router.post("/", uploader.array("files", 5), passportCall("jwt"), addProduct);
+router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin,addProduct);
 router.put("/:pid", passportCall("jwt"), updateProduct);
 router.delete("/:pid", passportCall("jwt"), deleteProduct);
 

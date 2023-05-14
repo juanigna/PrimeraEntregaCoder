@@ -4,7 +4,8 @@ import { generateToken } from "../utils/jwt.utils.js";
 import CustomError from "../services/CustomErrors.js";
 import EErrors from "../services/enums.js";
 import { generateUserInfo, userAlredyExists } from "../services/info.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 
 export const userPost = async (req, res) => {
   
@@ -30,13 +31,9 @@ export const userPost = async (req, res) => {
         code: EErrors.INVALID_TYPES_ERROR
       })
     }
-    const passwordAdminHashed = createHash("adminCod3r123");
-
-    const passwordHashed = createHash(password);
-    console.log("Contraseña: ", password);
-    console.log(passwordAdminHashed, passwordHashed);
-    const isAdminPass = passwordAdminHashed === passwordHashed;
-    if (email === "adminCoder@coder.com" && isAdminPass) {
+    const isAdminPass = password === process.env.ADMIN_DB_PASS;
+    const isPremiumPass = password === process.env.PREMIUM_DB_PASS;
+    if (email === process.env.ADMIN_DB_EMAIL && isAdminPass) {
       newUserInfo = {
         first_name,
         last_name,
@@ -45,7 +42,16 @@ export const userPost = async (req, res) => {
         password: createHash(password),
         role: "admin",
       };
-    } else {
+    }else if(email === process.env.PREMIUM_DB_EMAIL && isPremiumPass){
+      newUserInfo = {
+        first_name,
+        last_name,
+        age,
+        email,
+        password: createHash(password),
+        role: "premium",
+      };
+    }else {
       newUserInfo = {
         first_name,
         last_name,
@@ -55,7 +61,6 @@ export const userPost = async (req, res) => {
         role: "usuario",
       };
     }
-
     const token = generateToken(newUserInfo);
     res.cookie("authToken", token, { httpOnly: true });
     const newUser =  await User.create(newUserInfo);

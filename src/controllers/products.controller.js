@@ -71,9 +71,9 @@ export const getProductById = async (req, res) => {
 export const addProduct = async (req, res) => {
   try {
     const products = await productService.getProducts(); // Getting the products from fs
-    const { name, description, code, price, status, stock, category } =
-      req.body; // Getting the data from de body
-
+    const { name, description, code, price, status, stock, category, owner } =
+    req.body; // Getting the data from de body
+    
     if (
       !name ||
       !description ||
@@ -82,46 +82,63 @@ export const addProduct = async (req, res) => {
       !stock ||
       !category ||
       !status
-    ) {
-      return res.status(400).json({ msg: "Completa todos los campos!" });
-    }
-
-    const prodWithSameCode = products.find((product) => product.code === code); // Searching if there a product whith the same id
-
-    if (prodWithSameCode) {
-      return res
+      ) {
+        return res.status(400).json({ msg: "Completa todos los campos!" });
+      }
+      
+      const prodWithSameCode = products.find((product) => product.code === code); // Searching if there a product whith the same id
+      
+      if (prodWithSameCode) {
+        return res
         .status(404)
         .json({ message: "The code is used on other product!" });
-    }
-    const paths = [];
-
-    if (req.files) {
-      req.files.forEach((file) => {
-        paths.push(file.path);
-      });
-    }
-
-    // Creating the product object
-
-    const product = {
-      id: uuidv4(),
-      name,
-      description,
-      code,
-      price,
-      thumbnails: paths,
-      status: !status ? true : Boolean(status),
-      stock,
-      category,
-    };
-
-    await productService.createProduct(product);
-    await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
-
-    const productsUpdated = await productService.getProducts();
-    global.io.emit("newProductAdded", productsUpdated);
-
-    res.status(200).json({
+      }
+      const paths = [];
+      
+      if (req.files) {
+        req.files.forEach((file) => {
+          paths.push(file.path);
+        });
+      }
+      
+      // Creating the product object
+      let product = {}
+      if(!owner){
+        product = {
+          id: uuidv4(),
+          name,
+          description,
+          code,
+          price,
+          thumbnails: paths,
+          status: !status ? true : Boolean(status),
+          stock,
+          category,
+          owner: "admin"
+        };  
+      }else{
+        product = {
+          id: uuidv4(),
+          name,
+          description,
+          code,
+          price,
+          thumbnails: paths,
+          status: !status ? true : Boolean(status),
+          stock,
+          category,
+          owner: req.user.email
+        };
+      }
+      
+      await productService.createProduct(product);
+      await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
+      
+      const productsUpdated = await productService.getProducts();
+      global.io.emit("newProductAdded", productsUpdated);
+      
+      console.log(req.user.first_name)
+      res.status(200).json({
       message: "Product added successfully",
     });
   } catch (err) {
