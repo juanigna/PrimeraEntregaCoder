@@ -21,18 +21,29 @@ const privateAccess = (req,res, next) => {
 }
 
 const onlyAdmin = (req, res, next) => {
-  const user = req.user;
-  if(user.role !== "admin" || user.role !== "premium"){
+  console.log(req.user.role)
+  if(req.user.role === "premium"){
+    next();
+  }else{
     return res.status(401).json({message: "Unauthorized"})
   }
-  next();
+  
+}
+
+const onlyPremium = (req, res, next) => {
+  console.log(req.user.role)
+  if(req.user.role !== "admin"){
+    next();
+  }else{
+    return res.status(401).json({message: "Unauthorized"})
+  }
 }
 // Routes for products
 
 router.get("/", passportCall("jwt"), privateAccess ,getProducts);
 router.get("/:pid", getProductById);
 router.get("/mock/prods", getMocksProds)
-router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin,addProduct);
+router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin, onlyPremium,addProduct);
 router.put("/:pid", passportCall("jwt"), updateProduct);
 router.delete("/:pid", passportCall("jwt"), deleteProduct);
 

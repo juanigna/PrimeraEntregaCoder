@@ -22,5 +22,56 @@
 		"stock": 12,
 		"category": "yok",
 		"__v": 0
+	},
+	{
+		"_id": "6460393e5daecfc1242f2f0f",
+		"name": "Prod1",
+		"description": "PROD",
+		"code": "2231231311213",
+		"price": 1233,
+		"thumbnail": [],
+		"status": true,
+		"stock": 12,
+		"category": "yok",
+		"__v": 0
+	},
+	{
+		"_id": "6460976eb5f8b12031353a22",
+		"name": "NEW",
+		"description": "NEW",
+		"code": "245432331213",
+		"price": 1233,
+		"thumbnail": [],
+		"status": true,
+		"stock": 12,
+		"category": "yok",
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "6460981b684ac984c344d81e",
+		"name": "NEW",
+		"description": "NEW",
+		"code": "24514323111131220000",
+		"price": 1233,
+		"thumbnail": [],
+		"status": true,
+		"stock": 12,
+		"category": "yok",
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "646098fd1fea8cf0833d6342",
+		"name": "NEW",
+		"description": "NEW",
+		"code": "245143231111131230000",
+		"price": 1233,
+		"thumbnail": [],
+		"status": true,
+		"stock": 12,
+		"category": "yok",
+		"owner": "admin",
+		"__v": 0
 	}
 ]

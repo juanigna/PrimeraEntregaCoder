@@ -137,7 +137,7 @@ export const addProduct = async (req, res) => {
       const productsUpdated = await productService.getProducts();
       global.io.emit("newProductAdded", productsUpdated);
       
-      console.log(req.user.first_name)
+      console.log(req.user.role)
       res.status(200).json({
       message: "Product added successfully",
     });
@@ -156,7 +156,7 @@ export const updateProduct = async (req, res) => {
     const prodFound = await productService.getProductById(pid);
 
     if (prodFound) {
-      productsService.updateProduct(pid, changes);
+      productService.updateProduct(pid, changes);
       res.status(200).json({ message: "Product updated successfully" });
     } else {
     logger.warning('Product Not Found')
@@ -172,9 +172,21 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params; // Getting the product id from the params
-    const prodFound = productService.getProductById(pid); //Seraching the product by id
+    const prodFound = await productService.getProductById(pid); //Seraching the product by id
     if (prodFound) {
-      await productService.deleteProduct(pid);
+      console.log(req.user.role)
+      if(req.user.role === 'admin'){
+        await productService.deleteProduct(pid);
+      }else if(req.user.role === "premium"){
+        console.log(prodFound)
+        if(prodFound.owner === req.user.email){
+          await productService.deleteProduct(pid);
+        }else{
+          return res.status(404).json({ message: "Unauthorized" });
+        }
+      }else{
+        return res.status(404).json({ message: "Unauthorized" });
+      }
       return res.status(200).json({ message: "Product deleted successfully" });
     } else {
       return res.status(404).json({ message: "Product not found" });
