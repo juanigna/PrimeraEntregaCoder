@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 export const SECRET_KEY = "juaniBocchi";
 
 export const generateToken = (user) => {
-  const token = jwt.sign({ user: user }, SECRET_KEY);
+  const token = jwt.sign({ email: user.email }, SECRET_KEY);
 
   return token;
 };

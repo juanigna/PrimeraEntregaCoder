@@ -11,10 +11,11 @@ form.addEventListener("submit", (e) => {
     obj["id"] = window.location.pathname.split("/").pop()
     obj["token"] = window.location.pathname.split("/")[3]
 });
-  console.log("From js: ",window.location.pathname.split("/").pop())
+
   const url = "/auth/resetPassword";
 
   const headers = {
+    Accept: "application/json",
     "Content-Type": "application/json",
   };
   const method = "POST";

@@ -5,6 +5,7 @@ import bcryptjs from "bcrypt";
 import { logger } from "../utils/logger.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { transport } from "../utils/nodemailer.js";
 dotenv.config();
 
 
@@ -34,15 +35,23 @@ export const forgotPassswordLogic = async (req, res) => {
       res.status(404).json({message: "No existe este usuario"})
       logger.warning("No existe este usuario")
     }
-   
+  
     const token = jwt.sign({ user: user }, SECRET_KEY, {expiresIn: "15m"})
     let verificationLink = `http://localhost:8080/auth/resetPassword/${token}/${user._id}`
     user.resetToken = token;
+    //TODO enviar email con el link
+    await transport.sendMail({
+      from: 'Juani Backend Service',
+      to: user.email,
+      subject: 'Reset Password',
+      html: `<h2>Click en el link para cambiar la contraseña</h2> <a href="${verificationLink}">${verificationLink}</a>`,
+      attachments: []
+    })
     console.log("Click aqui para cambiar la contraseña: ", verificationLink)
     //Save user
     await user.save();
-    res.status(200).json({ verificationLink});
+    res.status(200)
   } catch (e) {
-    console.error(e);
+    console.log(e.message);
   }
 };

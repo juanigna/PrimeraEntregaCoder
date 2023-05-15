@@ -22,6 +22,13 @@ form.addEventListener("submit", (e) => {
 
   fetch(url, { method, headers, body })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      console.log(data); // Handle the response data as needed
+
+      // Redirect to the homepage
+      window.location.href = "/api/products";
+
+      
+    })
     .catch((error) => console.log(error));
 });
