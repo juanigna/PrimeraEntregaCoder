@@ -137,7 +137,6 @@ export const addProduct = async (req, res) => {
       const productsUpdated = await productService.getProducts();
       global.io.emit("newProductAdded", productsUpdated);
       
-      console.log(req.user.role)
       res.status(200).json({
       message: "Product added successfully",
     });

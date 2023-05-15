@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import dotenv from "dotenv";
 
-const SECRET_KEY = "juaniBocchi";
+export const SECRET_KEY = "juaniBocchi";
 
 export const generateToken = (user) => {
   const token = jwt.sign({ user: user }, SECRET_KEY);

@@ -11,7 +11,8 @@ const UserSchema = new mongoose.Schema({
         unique: true
     },
     age: Number,
-    password: String
+    password: String,
+    resetToken: String,
 })
 
 export const User = mongoose.model(usersCollection, UserSchema);
