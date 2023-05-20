@@ -14,10 +14,25 @@ import { initializePassport } from "./config/passport.config.js";
 import compression from "express-compression";
 import dotenv from "dotenv"
 import { handlerError } from "./middlewares/errors/handler.error.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express";
 dotenv.config();
 
 // Setting app
 
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion API!',
+            description: 'Documentacion de la API del proyecto de eccomerce de CoderHouse ',
+        }
+    },
+    apis:[`${__dirname}/docs/**/*.yaml`]
+}
+
+
+const specs = swaggerJSDoc(swaggerOptions)
 const app = express();
 
 
@@ -39,7 +54,7 @@ app.use(compression({
         enabled:true, zlib: {}
     }
 }))
-
+app.use('/apidocs', swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
 
 //Initialize passport
 initializePassport();
@@ -53,3 +68,4 @@ app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use(handlerError)
 export default app;
+  

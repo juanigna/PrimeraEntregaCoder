@@ -43,7 +43,7 @@ export const getProducts = async (req, res) => {
 
 export const getMocksProds = async (req, res) => {
   try{
-    const prods = runProductMock(100);
+    const prods = runProductMock(10);
     res.json({payload: prods})
   }catch(e){
     console.log(e)

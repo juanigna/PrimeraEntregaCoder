@@ -41,6 +41,7 @@ const onlyPremium = (req, res, next) => {
 // Routes for products
 
 router.get("/", passportCall("jwt") ,getProducts);
+router.get("/getProdsForSwagger", getMocksProds) 
 router.get("/:pid", getProductById);
 router.get("/mock/prods", getMocksProds)
 router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin, onlyPremium,addProduct);

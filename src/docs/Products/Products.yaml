@@ -1,0 +1,84 @@
+paths:
+  /api/products/getProdsForSwagger:
+    get:
+      summary: Obtener todos los products
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: Los productos fueron obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error interno del servidor
+
+  /api/products/{id}:
+    get:
+      summary: Obtener el producto mediante su id
+      tags:
+        - Productos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id del usuario a obtener
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Los productos fueron obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+   Product:
+    type: object
+    properties:
+      _id:
+        type: ObjectId
+        description: Id del producto autogenerado
+      title:
+        type: String
+        description: Nombre del producto
+      description: 
+        type: String
+        descripition: Descripción del producto
+      price:
+        type: Number
+        description: Precio del producto
+      thumbnail:
+        type: String
+        description: Imagen del producto
+      code:
+        type: String
+        description: Código del producto
+      stock: 
+        type: Number
+        description: Stock del producto
+      status:
+        type: String
+        description: Estado del producto
+      category:
+        type: String
+        description: Categoría del producto
+    example:
+      _id: ObjectId(860b0a4c9e6b3a1b0b8e0b0b0)
+      title: "Producto 1"
+      description: "Descripción del producto 1"
+      price: 1000
+      thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png"
+      code: "123456"
+      stock: 10
+      status: "active"
+      category: "Autos"
