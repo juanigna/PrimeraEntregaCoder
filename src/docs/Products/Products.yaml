@@ -1,5 +1,23 @@
 paths:
-  /api/products/getProdsForSwagger:
+  /api/products/:
+    post:
+      summary: Crear un producto
+      tags:
+        - Productos
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#components/requestBodies/createProduct'
+      responses:
+        "200":
+          description: El producto fue actualizado correctamente
+        "500":
+          description: Error interno del servidor
+
+
+  /api/products/mock/prods:
     get:
       summary: Obtener todos los products
       tags:
@@ -25,7 +43,7 @@ paths:
       - name: id
         in: path
         required: true
-        description: Id del usuario a obtener
+        description: Id del producto a obtener
         schema:
           $type: String
       responses:
@@ -39,46 +57,169 @@ paths:
                   $ref: '#components/schemas/Product'
         "500":
           description: Error interno del servidor
+  
+  /api/products/delete/{id}:
+    delete:
+      summary: Eliminar un producto mediante su id
+      tags:
+        - Productos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id del producto a eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El producto fue eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error interno del servidor
+          
+  /api/products/update/{id}:
+    put:
+      summary: Actualizar un producto
+      tags:
+        - Productos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id del producto a actualizar
+        schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: El producto fue actualizado correctamente
+        "500":
+          description: Error interno del servidor
+
 
 components:
   schemas:
-   Product:
-    type: object
-    properties:
-      _id:
-        type: ObjectId
-        description: Id del producto autogenerado
-      title:
-        type: String
-        description: Nombre del producto
-      description: 
-        type: String
-        descripition: Descripción del producto
-      price:
-        type: Number
-        description: Precio del producto
-      thumbnail:
-        type: String
-        description: Imagen del producto
-      code:
-        type: String
-        description: Código del producto
-      stock: 
-        type: Number
-        description: Stock del producto
-      status:
-        type: String
-        description: Estado del producto
-      category:
-        type: String
-        description: Categoría del producto
-    example:
-      _id: ObjectId(860b0a4c9e6b3a1b0b8e0b0b0)
-      title: "Producto 1"
-      description: "Descripción del producto 1"
-      price: 1000
-      thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png"
-      code: "123456"
-      stock: 10
-      status: "active"
-      category: "Autos"
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del producto autogenerado
+        title:
+          type: String
+          description: Nombre del producto
+        description: 
+          type: String
+          descripition: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Imagen del producto
+        code:
+          type: String
+          description: Código del producto
+        stock: 
+          type: Number
+          description: Stock del producto
+        status:
+          type: String
+          description: Estado del producto
+        category:
+          type: String
+          description: Categoría del producto
+      example:
+        _id: ObjectId(860b0a4c9e6b3a1b0b8e0b0b0)
+        title: "Producto 1"
+        description: "Descripción del producto 1"
+        price: 1000
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png"
+        code: "123456"
+        stock: 10
+        status: "active"
+        category: "Autos"
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title: 
+          type: String
+          description: Nombre del producto a actualizar
+        description: 
+          type: String
+          description: Descripcion del producto a actualizar
+        price:
+          type: Number
+          description: Precio del producto a actualizar
+        thumbnail:
+          type: String
+          description: URL de la imagen a actualiar (opcional)
+        code:
+          type: String
+          description: Codigo del producto a actualizar
+        stock: 
+          type: Number
+          description: Stock del producto a actualizar
+        status: 
+          type: String
+          description: Estado del prodcuto a actualizar
+        category: 
+          type: String
+          description: Categoria del producto a actualizar
+      example:
+        title: "Producto 2"
+        description: "Descripción del producto 2"
+        price: 1200
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png"
+        code: "1234564"
+        stock: 12
+        status: "active"
+        category: "Motos"
+
+    createProduct:
+      type: object
+      properties:
+        title: 
+          type: String
+          description: Nombre del producto 
+        description: 
+          type: String
+          description: Descripcion del producto 
+        price:
+          type: Number
+          description: Precio del producto 
+        thumbnail:
+          type: String
+          description: URL de la imagen (opcional)
+        code:
+          type: String
+          description: Codigo del producto 
+        stock: 
+          type: Number
+          description: Stock del producto 
+        status: 
+          type: String
+          description: Estado del prodcuto 
+        category: 
+          type: String
+          description: Categoria del producto 
+      example:
+        title: "Producto 2"
+        description: "Descripción del producto 2"
+        price: 1200
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png"
+        code: "1234564"
+        stock: 12
+        status: "active"
+        category: "Motos"
