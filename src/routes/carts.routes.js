@@ -5,7 +5,7 @@ import { authTokenCookies, passportCall } from '../utils/jwt.utils.js';
 const router = Router();
 
 // Routes for cart
-router.get('/', getCarts);
+router.get('/all', getCarts);
 router.get('/:cid', getProductsByCart);
 router.post('/', newCart);
 router.post('/:cid/product/:pid/', addProdToCart)
