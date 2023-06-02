@@ -60,8 +60,8 @@ class ProductDao {
 
     async updateProduct(id, updatedProduct){
         try{
-            const res = await productModel.findByIdAndUpdate({_id:id}, updatedProduct)
-            console.log(res);
+            const res = await productModel.findOneAndUpdate({_id:id}, updatedProduct)
+            return res
         }catch(e){
             console.log(e);
         }
@@ -75,5 +75,6 @@ class ProductDao {
         }
     }
 }
+
 
 export default ProductDao;

@@ -24,7 +24,7 @@ export default class ProductRepository{
     }
 
     updateProduct = async (id, product) => {
-        let result = await this.dao.update(id, product);
+        let result = await this.dao.updateProduct(id, product);
         return result;
     }
 
@@ -33,3 +33,4 @@ export default class ProductRepository{
         return result;
     }
 }
+

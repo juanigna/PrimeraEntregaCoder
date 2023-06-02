@@ -29,7 +29,9 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "chai": "^4.3.7",
     "handlebars": "^4.5.3",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20"
   },
   "name": "primeraentregaproyectofinal",
