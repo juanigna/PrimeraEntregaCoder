@@ -34,7 +34,7 @@ class CartDao {
     async updateCartProdById(id, productAdded) {
         try {
             const res = await cartModel.updateOne({ _id: id }, { $push: { products: productAdded } });
-            console.log(res);
+            return res
         } catch (e) {
             console.log(e.message);
         }

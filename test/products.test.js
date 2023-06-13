@@ -1,6 +1,6 @@
 import chai from "chai";
 import mongoose from "mongoose";
-import { productService } from "../src/dao/repositories/index.js";
+import { cartService, productService } from "../src/dao/repositories/index.js";
 import { productModel } from "../src/dao/models/Product.model.js";
 
 const expect = chai.expect;
