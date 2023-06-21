@@ -73,6 +73,15 @@ router.get("/failedLogin", async (req, res) => {
 
 router.get('/logout', async (req, res) => {
   try{
+    const token = req.cookies.authToken;
+    if(!token) return;
+    const mail = jwt.decode(token);
+    const user = await User.findOne({ email: mail.email })
+    if(!user) return
+
+    user.last_connection.logout_date = Date.now();
+    user.save();
+    
     res.status(202).clearCookie("authToken"); 
     res.redirect("/login");
   }catch(err){

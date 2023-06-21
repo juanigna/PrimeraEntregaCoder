@@ -10,7 +10,7 @@ dotenv.config();
 export const userPost = async (req, res) => {
   
     const { first_name, last_name, email, age, password } = req.body;
-
+  
     if(!first_name || !last_name || !email || !age || !password){
       CustomError.createError({
         name: "User creation error",

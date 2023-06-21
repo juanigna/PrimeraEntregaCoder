@@ -1,11 +1,15 @@
 import { Router } from "express";
-import passport from "passport";
 import { userPost } from "../users/users.controller.js";
 import { User } from "../dao/models/User.model.js";
 
 const router = Router();
 
 router.post("/", userPost);
+
+router.get("/", async (req, res) => {
+  const users = await User.find({});
+  res.send(users)
+})
 
 router.get("/failedRegister", async (req, res) => {
   res.send({ message: "Fallo el registro" });

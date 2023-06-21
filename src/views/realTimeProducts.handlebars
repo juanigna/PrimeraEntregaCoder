@@ -1,6 +1,6 @@
 <div id="producstOffline" class="container">
   <h2>Bienvenido {{user.first_name}}</h2>
-
+  <a href="/auth/logout" class="btn-primary">Logout</a>
   {{#each products.payload}}
     <div class="user-info">
       <span id="userInfo">

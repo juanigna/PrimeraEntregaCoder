@@ -13,6 +13,18 @@ const UserSchema = new mongoose.Schema({
     age: Number,
     password: String,
     resetToken: String,
+    last_connection: {
+		type: {
+			register_date: Date,
+			login_date: Date,
+			logout_date: Date,
+		},
+		default: {
+			register_date: Date(),
+			login_date: Date(),
+			logout_date: Date(),
+		},
+	},
 })
 
 export const User = mongoose.model(usersCollection, UserSchema);

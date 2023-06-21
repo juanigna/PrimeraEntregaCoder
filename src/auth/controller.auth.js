@@ -17,7 +17,8 @@ export const loginLogic = async (req, res) => {
     const comparePassword = bcryptjs.compareSync(password, user.password);
     
     if (!comparePassword)  res.status(403).json({ error: "Contraseña incorrecta" });
-
+    user.last_connection.login_date = Date.now();
+    await user.save()
     const token = generateToken(user);
     res.cookie("authToken", token, { httpOnly: true });
     return res.json({ token });
