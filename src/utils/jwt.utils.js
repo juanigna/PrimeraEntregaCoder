@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import dotenv from "dotenv";
+import { User } from "../dao/models/User.model.js";
 
 export const SECRET_KEY = "juaniBocchi";
 
@@ -23,15 +24,22 @@ export const authToken = (req, res, next) => {
   });
 };
 
-export const authTokenCookies = (req, res, next) => {
+export const authTokenCookies = async (req, res, next) => {
   const token = req.cookies.authToken;
+  console.log(token)
   if (!token) return res.status(401).json({ error: "Not authenticated" });
 
-  jwt.verify(token, SECRET_KEY, (error, credentials) => {
-    if (error) return res.status(403).json({ message: "Not authorized" });
-    req.user = credentials.user;
-    next();
-  });
+  const isOk = jwt.verify(token, SECRET_KEY);
+  if(!isOk){
+    res.status(404).send({err: "JWT_NOT_VALID"});
+  }
+  console.log(isOk)
+  const user = await User.findOne({email: isOk.email}).lean();
+  if(!user) return res.status(404).send({err: "JWT_NOT_VALID"});
+  console.log(user)
+  req.user = user;
+  next();
+
 };
 
 export const passportCall = (strategy) => {

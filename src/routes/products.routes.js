@@ -8,7 +8,7 @@ import {
   updateProduct,
 } from "../controllers/products.controller.js";
 import uploader from "../utils.js";
-import { passportCall } from "../utils/jwt.utils.js";
+import { authTokenCookies, passportCall } from "../utils/jwt.utils.js";
 import { runProductMock } from "../services/mocks/productMock.js";
 
 const router = Router();
@@ -40,7 +40,7 @@ const onlyPremium = (req, res, next) => {
 }
 // Routes for products
 
-router.get("/", passportCall("jwt") ,getProducts);
+router.get("/", passportCall("jwt") , authTokenCookies ,getProducts);
 router.get("/:pid", getProductById);
 router.get("/mock/prods", getMocksProds)
 router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin, onlyPremium,addProduct);

@@ -28,6 +28,7 @@ export const getProductsFromFile = async () => {
 export const getProducts = async (req, res) => {
   try {
     const user = req.user;
+    console.log("User in controller: ", user.first_name)
     const limit = req.query.limit || 3; // Getting the limit query
     const page = req.query.page || 1;
     const query = req.query.q ? JSON.parse(req.query.q) : {};
