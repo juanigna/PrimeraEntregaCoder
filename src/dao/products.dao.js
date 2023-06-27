@@ -32,8 +32,7 @@ class ProductDao {
 
     async find(){
         try{    
-            const products = await productModel.find();
-
+            const products = await productModel.find().lean();
             return products;
         }catch(e){
             console.log(e);
@@ -42,7 +41,7 @@ class ProductDao {
 
     async findById(id){
         try{
-            const product = await productModel.findById({_id: id})
+            const product = await productModel.findById({_id: id}).lean()
             return product;
         }catch(e){
             console.log(e);
@@ -70,6 +69,7 @@ class ProductDao {
     async deleteProduct(id){
         try{
             const res = await productModel.findOneAndDelete({_id:id});
+            return res
         }catch(e){
             console.log(e);
         }

@@ -41,7 +41,7 @@ const onlyPremium = (req, res, next) => {
 // Routes for products
 
 router.get("/", passportCall("jwt") , authTokenCookies ,getProducts);
-router.get("/:pid", getProductById);
+router.get("/:pid", getProductById, authTokenCookies);
 router.get("/mock/prods", getMocksProds)
 router.post("/", uploader.array("files", 5), passportCall("jwt"), onlyAdmin, onlyPremium,addProduct);
 router.put("/update/:pid", passportCall("jwt"), updateProduct);

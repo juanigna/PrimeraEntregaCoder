@@ -5,6 +5,10 @@
     {{#if user}}
       <a href="/auth/logout" class="btn-primary">Logout</a>
     {{/if}}
+    {{#if isAdmin}}
+      <h1>Hi admin! Welcome</h1>
+      <a href="/users/manageUsers">Manage users</a>
+    {{/if}}
   </div>
   <div class="container">
     {{#each products.payload}}
@@ -19,6 +23,7 @@
         <p>category: {{category}}</p>
         <p>id: {{_id}}</p>
         <button id="add-to-cart" class="addButton">Add to cart</button>
+        <a href="/api/products/{{_id}}">View Product</a>
       </div>
     {{/each}}
     <div class="buttons-links">

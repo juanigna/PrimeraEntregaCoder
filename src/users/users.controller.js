@@ -33,7 +33,7 @@ export const userPost = async (req, res) => {
     }
     const isAdminPass = password === process.env.ADMIN_DB_PASS;
     const isPremiumPass = password === process.env.PREMIUM_DB_PASS;
-    if (email === process.env.ADMIN_DB_EMAIL && isAdminPass) {
+    if (email === process.env.ADMIN_DB_MAIL && isAdminPass) {
       newUserInfo = {
         first_name,
         last_name,

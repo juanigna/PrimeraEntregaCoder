@@ -28,13 +28,14 @@ export const getProductsFromFile = async () => {
 export const getProducts = async (req, res) => {
   try {
     const user = req.user;
-    console.log("User in controller: ", user.first_name)
     const limit = req.query.limit || 3; // Getting the limit query
     const page = req.query.page || 1;
     const query = req.query.q ? JSON.parse(req.query.q) : {};
     const sort = req.query.sort || {};
     const products = await productService.paginate(req, res, page, limit, query, sort);
-    res.render("home.handlebars", { products, user });
+    const isAdmin = user.role === "admin"
+    console.log(user)
+    res.render("home.handlebars", { products, user, isAdmin });
 
     // res.status(200).json({products: products});
   } catch (e) {
@@ -54,11 +55,11 @@ export const getMocksProds = async (req, res) => {
 // Function to get the product by id
 export const getProductById = async (req, res) => {
   try {
+    const user = req.user;
     const { pid } = req.params; // Getting the productId from params
     const prodFound = await productService.getProductById(pid); // Getting the products from fs
-
     if (prodFound) {
-      return res.status(200).json({ product: prodFound });
+      res.render("singleProduct.handlebars", {prodFound, user})
     } else {
       return res.status(404).json({ message: "Product not found" });
     }

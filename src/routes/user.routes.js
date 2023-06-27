@@ -16,9 +16,14 @@ router.get("/failedRegister", async (req, res) => {
 });
 
 router.get("/successRegister", async (req, res) => {
-  console.log("User registered");
   res.send({ message: "User registered!" });
 });
+
+router.get("/manageUsers", async (req, res) => {
+  const users = await User.find({}).lean()
+  console.log(users)
+  res.render("manageUsers.handlebars", {users})
+})
 
 router.post("/premium/:uid", async (req, res) => {
   const { uid } = req.params;
@@ -50,17 +55,28 @@ router.delete("/", async (req, res) => {
       }
     });
 
-    if(usersToDelete[0]){
+    if (usersToDelete[0]) {
       // Borro aquellos usuarios cuyo logout_date es mayor a 30 dias!
       await User.deleteMany({ _id: { $in: usersToDelete } });
-  
+
       res.json({ message: "Users deleted successfully." });
     }
-    res.json({message: "All the users are within the 30 days!"})
+    res.json({ message: "All the users are within the 30 days!" })
 
   } catch (error) {
     res.status(500).json({ error: "An error occurred while deleting users." });
   }
 });
+
+router.delete("/deleteSingle/:uid", async (req, res) => {
+  try{
+    const uid = req.params.uid;
+    if(!uid) res.status(400).json({message: "Please enter a uid"})
+    console.log(uid)
+    await User.findOneAndDelete({_id:uid});
+  }catch(err) {
+    return res.status(400).json({message: err})
+  }
+})
 
 export default router;

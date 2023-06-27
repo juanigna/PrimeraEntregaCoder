@@ -58,3 +58,13 @@ body{
     border-radius: 10px;
     text-decoration: none;
 }
+
+a {
+    background-color: #cb9dc2;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: .4em;
+    border-radius: 10px;
+
+}
