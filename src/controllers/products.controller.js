@@ -48,7 +48,7 @@ export const getMocksProds = async (req, res) => {
     const prods = runProductMock(10);
     res.json({payload: prods})
   }catch(e){
-    console.log(e)
+    res.status(404).json({message: e})
   }
 }
 
@@ -132,7 +132,7 @@ export const addProduct = async (req, res) => {
           owner: req.user.email
         };
       }
-      
+      console.log("Hi", product)
       await productService.createProduct(product);
       await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
       
@@ -175,7 +175,6 @@ export const deleteProduct = async (req, res) => {
     const { pid } = req.params; // Getting the product id from the params
     const prodFound = await productService.getProductById(pid); //Seraching the product by id
     if (prodFound) {
-      console.log(req.user.role)
       if(req.user.role === 'admin'){
         await productService.deleteProduct(pid);
       }else if(req.user.role === "premium"){

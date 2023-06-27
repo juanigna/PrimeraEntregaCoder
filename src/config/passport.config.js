@@ -44,14 +44,11 @@ export const initializePassport = () => {
           const user = await User.findOne({ email: username });
           let newUserInfo = {};
           if (user) {
-            console.log("El usuario ya existe!");
             return done(null, false);
           }
           const passwordAdminHashed = createHash("adminCod3r123");
 
           const passwordHashed = createHash(password);
-          console.log("Contraseña: ", password);
-          console.log(passwordAdminHashed, passwordHashed);
           const isAdminPass = passwordAdminHashed === passwordHashed;
           if (username === "adminCoder@coder.com" && isAdminPass) {
             newUserInfo = {

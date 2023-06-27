@@ -26,7 +26,6 @@ export const authToken = (req, res, next) => {
 
 export const authTokenCookies = async (req, res, next) => {
   const token = req.cookies.authToken;
-  console.log(token)
   if (!token) return res.status(401).json({ error: "Not authenticated" });
 
   const isOk = jwt.verify(token, SECRET_KEY);
@@ -36,7 +35,6 @@ export const authTokenCookies = async (req, res, next) => {
   console.log(isOk)
   const user = await User.findOne({email: isOk.email}).lean();
   if(!user) return res.status(404).send({err: "JWT_NOT_VALID"});
-  console.log(user)
   req.user = user;
   next();
 

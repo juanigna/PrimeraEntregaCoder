@@ -9,7 +9,7 @@ class CartDao {
             const carts = await cartModel.find().lean();
             return carts
         } catch (e) {
-            console.log(e.message)
+            return e
         }
     }
 
@@ -18,7 +18,7 @@ class CartDao {
             const cart = await cartModel.findById({ "_id": id }).populate('products.id').lean();
             return cart
         } catch (e) {
-            console.log(e?.message)
+            return e
         }
     }
 
@@ -27,7 +27,7 @@ class CartDao {
             const res = await cartModel.create(data);
             return res;
         } catch (e) {
-            console.log(e);
+            return e
         }
     }
 
@@ -36,7 +36,7 @@ class CartDao {
             const res = await cartModel.updateOne({ _id: id }, { $push: { products: productAdded } });
             return res
         } catch (e) {
-            console.log(e.message);
+            return e
         }
     }
 

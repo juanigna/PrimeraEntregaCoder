@@ -24,8 +24,8 @@ class ProductDao {
             }
 
             return res;
-        }catch(err){
-            console.log(err);
+        }catch(e){
+            return e
         }
         
     }
@@ -35,7 +35,7 @@ class ProductDao {
             const products = await productModel.find().lean();
             return products;
         }catch(e){
-            console.log(e);
+            return e
         }
     }
 
@@ -44,7 +44,7 @@ class ProductDao {
             const product = await productModel.findById({_id: id}).lean()
             return product;
         }catch(e){
-            console.log(e);
+            return e
         }
     }
 
@@ -53,7 +53,7 @@ class ProductDao {
             const res = await productModel.create(newProduct);
             return res;
         }catch(e){
-            console.log(e);
+            return e
         }
     }
 
@@ -62,7 +62,7 @@ class ProductDao {
             const res = await productModel.findOneAndUpdate({_id:id}, updatedProduct)
             return res
         }catch(e){
-            console.log(e);
+            return e
         }
     }
 
@@ -71,7 +71,7 @@ class ProductDao {
             const res = await productModel.findOneAndDelete({_id:id});
             return res
         }catch(e){
-            console.log(e);
+            return e
         }
     }
 }

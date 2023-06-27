@@ -124,7 +124,6 @@ export const purchaseCart = async (req, res) => {
         })
 
         prodWithNoStock.push(productsFromCart)
-        console.log(prodWithNoStock)
         return res.status(200).json({ noStock: { prodWithNoStock } })
     }
     catch (error) {

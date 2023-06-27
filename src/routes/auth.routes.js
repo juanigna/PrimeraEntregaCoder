@@ -27,12 +27,11 @@ router.get(
   "/githubLogin",
   passport.authenticate("github", { failureRedirect: "/login" }),
   async (req, res) => {
-    console.log("hi");
     try {
       req.session.user = req.user;
       res.redirect("/api/products");
     } catch (err) {
-      console.log(err);
+      return err
     }
   }
 );
@@ -52,14 +51,11 @@ router.post('/resetPassword', async (req, res) => {
   const {password, id, token} = req.body;
   try{
     let user = await User.findById({_id: id})
-    const payload = jwt.verify(token,SECRET_KEY ); 
     let isTheSame = bcryptjs.compareSync(password, user.password);
     if(!isTheSame){
       user.password = createHash(password);
       await user.save();
-      res.status(200).json({msg: "Contraseña cambiada con exito"})
     }
-    res.status(400).json({msg: "La contraseña no puede ser la misma"})
   }catch(err){
     res.status(400).json({msg: err.message})
   }

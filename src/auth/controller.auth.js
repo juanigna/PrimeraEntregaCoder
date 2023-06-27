@@ -16,12 +16,12 @@ export const loginLogic = async (req, res) => {
     if (!user) return res.status(403).json({ error: "No existe este usuario" });
     const comparePassword = bcryptjs.compareSync(password, user.password);
     
-    if (!comparePassword)  res.status(403).json({ error: "Contraseña incorrecta" });
+    if (!comparePassword)  return res.status(403).send({ error: "Contraseña incorrecta" });
     user.last_connection.login_date = Date.now();
     await user.save()
     const token = generateToken(user);
     res.cookie("authToken", token, { httpOnly: true });
-    return res.json({ token });
+    res.json({ token });
   } catch (error) {
     console.error("Se ha producido un error: " + error.message);
   }
@@ -48,10 +48,9 @@ export const forgotPassswordLogic = async (req, res) => {
       html: `<h2>Click en el link para cambiar la contraseña</h2> <a href="${verificationLink}">${verificationLink}</a>`,
       attachments: []
     })
-    console.log("Click aqui para cambiar la contraseña: ", verificationLink)
     //Save user
     await user.save();
-    res.status(200)
+    return res.status(200).json({resetToken: token, verificationLink})
   } catch (e) {
     console.log(e.message);
   }
