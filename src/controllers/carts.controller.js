@@ -21,7 +21,6 @@ export const getCarts = async (req, res) => {
 export const newCart = async (req, res) => {
     const carts = await cartService.getCarts(); // Getting the carts
     try {
-
         // Creating a new cart
         const newCart = {
             id: uuidv4(),
@@ -96,6 +95,9 @@ export const addProdToCart = async (req, res) => {
 export const purchaseCart = async (req, res) => {
     const { cid } = req.params; // Getting the cart id from params
     try {
+        const user = req.user;
+        console.log(user)
+
         const cartFound = await cartService.getCartById(cid);
         if (!cartFound) return res.status(404).json({ message: 'Cart not found' });
 
@@ -108,7 +110,6 @@ export const purchaseCart = async (req, res) => {
                 const newStock = prodFromCartId.stock - prod.quantity
                 await productModel.findOneAndUpdate({ _id: prod.id._id }, { stock: newStock })
 
-
                 await cartModel.findOneAndUpdate({ _id: cid }, { $pull: { products: { id: prod.id._id } } })
                 const data = {
                     code: uuidv4(),
@@ -117,14 +118,13 @@ export const purchaseCart = async (req, res) => {
                     purchaser: req.user.email
 
                 }
-                await cartService.payCart(data);
+                const res  = await cartService.payCart(data);
+                res.status(200).json({message: res})
             } else {
-                return prod
+                return res.status(400).json({message: "Out of stock"})
             }
         })
 
-        prodWithNoStock.push(productsFromCart)
-        return res.status(200).json({ noStock: { prodWithNoStock } })
     }
     catch (error) {
         return res.status(404).json({ error: error.message })

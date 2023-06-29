@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
 			logout_date: Date(),
 		},
 	},
+    cart: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'cart',
+	},
 })
 
 export const User = mongoose.model(usersCollection, UserSchema);
