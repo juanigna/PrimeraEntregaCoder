@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userPost } from "../users/users.controller.js";
+import { userPost } from "../controllers/users.controller.js";
 import { User } from "../dao/models/User.model.js";
 
 const router = Router();
