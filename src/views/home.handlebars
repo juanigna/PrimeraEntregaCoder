@@ -3,7 +3,7 @@
   <h2>Bienvenido {{user.first_name}}</h2>
   <div>
     {{#if user}}
-      <a href="/auth/logout" class="btn-primary">Logout</a>
+      <a href="/api/auth/logout" class="btn-primary">Logout</a>
     {{/if}}
     {{#if isAdmin}}
       <h1>Hi admin! Welcome</h1>
