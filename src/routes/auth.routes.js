@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { forgotPassswordLogic, loginLogic } from "../auth/controller.auth.js";
+import { forgotPassswordLogic, loginLogic } from "../controllers/controller.auth.js";
 import { User } from "../dao/models/User.model.js";
 import dotenv from "dotenv";
 import { createHash } from "../utils/cryptPassword.js";
