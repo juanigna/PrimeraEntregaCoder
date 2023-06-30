@@ -63,9 +63,9 @@ app.use(passport.initialize());
 app.use("/", viewTemplateRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/carts", cartsRoutes);
-app.use("/realtimeproducts", realTimeRoutes);
-app.use("/users", userRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/realtimeproducts", realTimeRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 app.use(handlerError)
 export default app;
   
