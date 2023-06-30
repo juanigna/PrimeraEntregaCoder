@@ -11,7 +11,7 @@ form.addEventListener("submit", (e) => {
     obj[key] = value;
   });
 
-  const url = "/users";
+  const url = "/api/users";
   const method = "POST";
   const headers = {
     "Content-type": "application/json",

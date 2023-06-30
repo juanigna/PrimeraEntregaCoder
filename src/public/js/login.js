@@ -11,7 +11,7 @@ form.addEventListener("submit", (e) => {
     obj[key] = value;
   });
 
-  const url = "/auth";
+  const url = "/api/auth";
   const method = "POST";
   const headers = {
     Accept: "application/json",
